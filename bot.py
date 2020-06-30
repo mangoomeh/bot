@@ -19,7 +19,6 @@ async def on_message(message):
     if message.author == client.user or message.content.startswith('!') is not True:
         return
     args = message.content.split(' ')
-    args2 = message.content.split(',')
     command = args[0][1:]
     channel = message.channel
     greetings = [
@@ -229,6 +228,7 @@ async def on_message(message):
         else:
             await message.channel.send("The correct answer is: {0}".format(answer))
     elif command == "clan-info":
+        args2 = message.content.split('.')
         key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6Ijc2YWYzMGJmLWFjYzgtNGE0Ny1hZmU2LWIwZjE0NzY2ZWNlYyIsImlhdCI6MTU5MjMxMzY0OSwic3ViIjoiZGV2ZWxvcGVyL2JjNzVkYTRmLTEyMGItOWU3Ny0xMTA0LWM0YmQxMDllMDc5OCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMjguMTI4LjEyOC4xMjgiXSwidHlwZSI6ImNsaWVudCJ9XX0.czFtTMv7pqaziRUiivFYyXdvwAvPQNpI7w9tNvrExj0cvzYFl20GHtdLL3LiVKM-ZUFs1wTXeSqfjXgygssT2g"
         base_url = "https://proxy.royaleapi.dev/v1"
 
@@ -255,7 +255,7 @@ async def on_message(message):
 
         if args[1] == "member":
             for item in data1['items']:
-                if item['name'].split(' ')[0] == args[2]:
+                if item['name'] == args[2]:
                     response1 = "Name: {0} \nRank: {1} \nTrophies: {2} \nArena: {3} \nDonations: {4} \n".format(item['name'],
                                                                                                         item['role'],
                                                                                                         item["trophies"],
