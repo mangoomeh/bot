@@ -255,7 +255,7 @@ async def on_message(message):
 
         if args[1] == "member":
             for item in data1['items']:
-                if item['name'].split(' ') == args[2]:
+                if item['name'].split(' ')[0] == args[2]:
                     response1 = "Name: {0} \nRank: {1} \nTrophies: {2} \nArena: {3} \nDonations: {4} \n".format(item['name'],
                                                                                                         item['role'],
                                                                                                         item["trophies"],
