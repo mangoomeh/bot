@@ -255,7 +255,7 @@ async def on_message(message):
 
         if args[1] == "member":
             for item in data1['items']:
-                if item['name'] == args[2]:
+                if item['name'] == args2[1]:
                     response1 = "Name: {0} \nRank: {1} \nTrophies: {2} \nArena: {3} \nDonations: {4} \n".format(item['name'],
                                                                                                         item['role'],
                                                                                                         item["trophies"],
@@ -268,7 +268,7 @@ async def on_message(message):
 
         if args[1] == "war":
             for item in data2['participants']:
-                if item['name'] == args[2]:
+                if item['name'] == args2[1]:
                     response2 = "Name:{0} \nCollection Day: {1}/3 \nBattles Played: {2}/{3} \nWins: {4}/{2} \n".format(item['name'],
                                                                                                                item['collectionDayBattlesPlayed'],
                                                                                                                item["battlesPlayed"],
