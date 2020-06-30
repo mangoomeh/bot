@@ -19,6 +19,7 @@ async def on_message(message):
     if message.author == client.user or message.content.startswith('!') is not True:
         return
     args = message.content.split(' ')
+    args2 = message.content.split(',')
     command = args[0][1:]
     channel = message.channel
     greetings = [
@@ -254,7 +255,7 @@ async def on_message(message):
 
         if args[1] == "member":
             for item in data1['items']:
-                if item['name'] == args[2]:
+                if item['name'].split(' ') == args[2]:
                     response1 = "Name: {0} \nRank: {1} \nTrophies: {2} \nArena: {3} \nDonations: {4} \n".format(item['name'],
                                                                                                         item['role'],
                                                                                                         item["trophies"],
