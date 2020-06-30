@@ -249,7 +249,8 @@ async def on_message(message):
         if args[1] == "membername":
             for item in data1['items']:
                 response = response + item['name'] + "\n"
-                await message.channel.send(response)
+
+            await message.channel.send(response)
 
         if args[1] == "member":
             for item in data1['items']:
