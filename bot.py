@@ -242,8 +242,14 @@ async def on_message(message):
 
         data2 = request2.json()
 
+        response = ""
         response1 = ""
         response2 = ""
+
+        if args[1] == "membername":
+            for item in data1['items']:
+                response = response + item['name'] + "\n"
+                await message.chanel.send(response)
 
         if args[1] == "member":
             for item in data1['items']:
