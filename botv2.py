@@ -1,4 +1,5 @@
 import random
+import os
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -283,4 +284,4 @@ async def data(ctx):
     else:
         await ctx.send("Invalid input, please try again from !clan-info.")
 
-bot.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')
+bot.run(os.environ['token'])
