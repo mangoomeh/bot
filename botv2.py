@@ -53,7 +53,7 @@ async def quote(ctx):
         "You can never cross the ocean until you have the courage to lose sign of the shore. \n-Columbus"
     ]
     response = random.choice(quotes)
-    await ctx.send(ctx.author.mention + response)
+    await ctx.send(ctx.author.mention + "\n" + response)
 
 
 @bot.command(name='quiz', help='mangoBot sends you a trivia quiz question.')
@@ -216,19 +216,19 @@ async def quiz(ctx):
     try:
         msg = (await bot.wait_for('message', check=check)).content.lower()
     except asyncio.TimeoutError:
-        await ctx.send(ctx.author.mention + "Time is up. The correct answer is: {0}".format(answer))
+        await ctx.send(ctx.author.mention + "\n" + "Time is up. The correct answer is: {0}".format(answer))
         return
     if msg == answer.lower():
-        await ctx.send(ctx.author.mention + "That's right!")
+        await ctx.send(ctx.author.mention + "\n" + "That's right!")
     else:
-        await ctx.send(ctx.author.mention + "The correct answer is: " + answer)
+        await ctx.send(ctx.author.mention + "\n" + "The correct answer is: " + answer)
 
 
 @bot.command(name='time', help='mangoBot tells you the current time.')
 async def time(ctx):
     now = datetime.now(timezone('Asia/Singapore'))
     response = now.strftime("%d %B %H%M")
-    await ctx.send(ctx.author.mention + response)
+    await ctx.send(ctx.author.mention + "\n" + response)
 
 @bot.command(name='clan-info', help='mangoBot tells you the information of a player.')
 async def data(ctx):
@@ -261,7 +261,7 @@ async def data(ctx):
                     item["trophies"],
                     item['arena']['name'],
                     item["donations"])
-                await ctx.channel.send(ctx.author.mention + response1)
+                await ctx.channel.send(ctx.author.mention + "\n" + response1)
                 break
         if not x:
             await ctx.send("Player info not found.")
@@ -276,7 +276,7 @@ async def data(ctx):
                                                                                                                item["battlesPlayed"],
                                                                                                                item['numberOfBattles'],
                                                                                                                item['wins'])
-                await ctx.channel.send(ctx.author.mention + response2)
+                await ctx.channel.send(ctx.author.mention + "\n" + response2)
                 break
         if not x:
             await ctx.send("Player info not found.")
