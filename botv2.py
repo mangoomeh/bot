@@ -1,6 +1,7 @@
 import random
 from discord.ext import commands
 from datetime import datetime
+from pytz import timezone
 import asyncio
 import requests
 
@@ -225,7 +226,7 @@ async def quiz(ctx):
 
 @bot.command(name='time', help='mangoBot tells you the current time.')
 async def time(ctx):
-    now = datetime.now()
+    now = datetime.now(timezone('Asia/Singapore'))
     response = now.strftime("%d %B %H%M")
     await ctx.send(response)
 
