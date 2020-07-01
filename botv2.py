@@ -11,6 +11,9 @@ bot = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+@bot.command(name='version', help='Shows current version of mangoBot')
+async def version(ctx):
+    await ctx.send("mangoBot v2.0")
 
 @bot.command(name='hello', help='mangoBot greets you.')
 async def greet(ctx):
