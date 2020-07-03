@@ -1,3 +1,4 @@
+# botv2.py
 import random
 import os
 from discord.ext import commands
@@ -6,6 +7,9 @@ from pytz import timezone
 import asyncio
 import requests
 
+version = "mangoBot tester"
+
+# ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
 
 
@@ -16,7 +20,7 @@ async def on_ready():
 
 @bot.command(name='version', help='Shows current version of mangoBot')
 async def version(ctx):
-    await ctx.send("Current version: mangoBot tester")
+    await ctx.send("Current Build: " + version)
 
 
 @bot.command(name='hello', help='mangoBot greets you.')
@@ -31,6 +35,13 @@ async def greet(ctx):
     ]
     response = random.choice(greetings)
     await ctx.send(response)
+
+
+@bot.command(name='time', help='mangoBot tells you the current time.')
+async def time(ctx):
+    now = datetime.now(timezone('Asia/Singapore'))
+    response = now.strftime("%H:%M\n%d %B %Y")
+    await ctx.send(ctx.author.mention + "\n" + response)
 
 
 @bot.command(name='quote', help='mangoBot sends you a quote.')
@@ -226,13 +237,6 @@ async def quiz(ctx):
         await ctx.send(ctx.author.mention + "\n" + "The correct answer is: " + answer)
 
 
-@bot.command(name='time', help='mangoBot tells you the current time.')
-async def time(ctx):
-    now = datetime.now(timezone('Asia/Singapore'))
-    response = now.strftime("%H:%M\n%d %B %Y")
-    await ctx.send(ctx.author.mention + "\n" + response)
-
-
 @bot.command(name='clan', help='Retrieve member information. Follow the questions of mangoBot accordingly.')
 async def data(ctx):
     key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9" \
@@ -304,6 +308,5 @@ async def data(ctx):
         await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
 
 
-# ===================================================== #
-
+# ==================================================================================================================== #
 bot.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')
