@@ -268,9 +268,9 @@ async def data(ctx):
         if not x:
             await ctx.send("Player info not found.")
     elif msg == "war":
-        if data2.state == "notInWar":
+        if data2['state'] == "notInWar":
             await ctx.send("We are currently not in war.")
-            return;
+            return
         await ctx.send("Name of player?")
         msg = (await bot.wait_for('message', check=check)).content
         for item in data2['participants']:

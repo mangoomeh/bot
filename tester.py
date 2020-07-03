@@ -19,7 +19,6 @@ async def on_message(message):
     if message.author == client.user or message.content.startswith('!') is not True:
         return
     args = message.content.split(' ')
-    print(args[1], args[2])
     command = args[0][1:]
     channel = message.channel
     greetings = [
@@ -131,6 +130,9 @@ async def on_message(message):
                 await message.channel.send("Cannot find name.")
 
         if args[1] == "war":
+            if data2['state'] == "notInWar":
+                await message.channel.send("We are currently not in war.")
+                return
             for item in data2['participants']:
                 if item['name'] == args[2]:
                     response2 = "Name:{0} \nCollection Day: {1}/3 \nBattles Played: {2}/{3} \nWins: {4}/{2} \n".format(item['name'],
