@@ -16,7 +16,7 @@ async def on_ready():
 
 @bot.command(name='version', help='Shows current version of mangoBot')
 async def version(ctx):
-    await ctx.send("mangoBot tester")
+    await ctx.send("Current version: mangoBot tester")
 
 
 @bot.command(name='hello', help='mangoBot greets you.')
@@ -60,7 +60,7 @@ async def quote(ctx):
 
 @bot.command(name='quiz', help='mangoBot sends you a trivia quiz question.')
 async def quiz(ctx):
-    quiz = [
+    quizset = [
         "The tallest building in the world is located in which city?",  # 1
         "Which year was the original Toy Story film released in the US?",  # 2
         "Name the current UK Home Secretary",  # 3
@@ -207,8 +207,8 @@ async def quiz(ctx):
         "12",  # 69
         "12"  # 70
     ]
-    index = random.randint(0, len(quiz) - 1)
-    question = quiz[index]
+    index = random.randint(0, len(quizset) - 1)
+    question = quizset[index]
     answer = answers[index]
     await ctx.send(question)
 
@@ -229,12 +229,19 @@ async def quiz(ctx):
 @bot.command(name='time', help='mangoBot tells you the current time.')
 async def time(ctx):
     now = datetime.now(timezone('Asia/Singapore'))
-    response = now.strftime("%d %B %H%M")
+    response = now.strftime("%H:%M\n%d %B %Y")
     await ctx.send(ctx.author.mention + "\n" + response)
 
-@bot.command(name='clan-info', help='mangoBot tells you the information of a player.')
+
+@bot.command(name='clan', help='Retrieve member information. Follow the questions of mangoBot accordingly.')
 async def data(ctx):
-    key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6Ijc2YWYzMGJmLWFjYzgtNGE0Ny1hZmU2LWIwZjE0NzY2ZWNlYyIsImlhdCI6MTU5MjMxMzY0OSwic3ViIjoiZGV2ZWxvcGVyL2JjNzVkYTRmLTEyMGItOWU3Ny0xMTA0LWM0YmQxMDllMDc5OCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMjguMTI4LjEyOC4xMjgiXSwidHlwZSI6ImNsaWVudCJ9XX0.czFtTMv7pqaziRUiivFYyXdvwAvPQNpI7w9tNvrExj0cvzYFl20GHtdLL3LiVKM-ZUFs1wTXeSqfjXgygssT2g"
+    key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9" \
+          ".eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6Ijc2YWYzMGJmLWFjYzgtNGE0Ny1" \
+          "hZmU2LWIwZjE0NzY2ZWNlYyIsImlhdCI6MTU5MjMxMzY0OSwic3ViIjoiZGV2ZWxvcGVyL2JjNzVkYTRmLTEyMGItOWU3Ny0" \
+          "xMTA0LWM0YmQxMDllMDc5OCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZ" \
+          "lciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMjguMTI4LjEyOC4xMjgiXSwidHlwZSI6ImNsaWVudCJ9XX0" \
+          ".czFtTMv7pqaziRUiivFYyXdvwAvPQNpI7w9tNvrExj0cvzYFl20GHtdLL3LiVKM-ZUFs1wTXeSqfjXgygssT2g "
+
     base_url = "https://proxy.royaleapi.dev/v1"
 
     endpoint1 = "/clans/%23L2208GR9/members"
@@ -246,13 +253,14 @@ async def data(ctx):
     data1 = request1.json()
     data2 = request2.json()
 
-    await ctx.send("What info are you looking for? (war/member)")
+    await ctx.send(ctx.author.mention + "\nWhat info are you looking for? (war/member)")
 
     def check(m):
         return m.author == ctx.author
+
     msg = (await bot.wait_for('message', check=check)).content.lower()
     if msg == "member":
-        await ctx.send("Name of player?")
+        await ctx.send(ctx.author.mention + "Name of player?")
         msg = (await bot.wait_for('message', check=check)).content
         for item in data1['items']:
             x = item['name'] == msg
@@ -266,32 +274,35 @@ async def data(ctx):
                 await ctx.channel.send(ctx.author.mention + "\n" + response1)
                 break
         if not x:
-            await ctx.send("Player info not found.")
+            await ctx.send(ctx.author.mention + "\nPlayer info not found.")
     elif msg == "war":
         if data2['state'] == "notInWar":
-            await ctx.send("We are currently not in war.")
+            await ctx.send(ctx.author.mention + "\nWe are currently not in war.")
             return
         await ctx.send("Name of player?")
         msg = (await bot.wait_for('message', check=check)).content
         for item in data2['participants']:
             x = item['name'] == msg
             if x:
-                response2 = "Name:{0} \nCollection Day: {1}/3 \nBattles Played: {2}/{3} \nWins: {4}/{2} \n".format(item['name'],
-                                                                                                               item['collectionDayBattlesPlayed'],
-                                                                                                               item["battlesPlayed"],
-                                                                                                               item['numberOfBattles'],
-                                                                                                               item['wins'])
+                response2 = "Name:{0} \nCollection Day: {1}/3 \nBattles Played: {2}/{3} \nWins: {4}/{2} \n".format(
+                    item['name'],
+                    item['collectionDayBattlesPlayed'],
+                    item["battlesPlayed"],
+                    item['numberOfBattles'],
+                    item['wins'])
                 await ctx.channel.send(ctx.author.mention + "\n" + response2)
                 break
         if not x:
-            await ctx.send("Player info not found.")
+            await ctx.send(ctx.author.mention + "\nPlayer info not found.")
     elif msg == "members":
-        tempdata = ""
+        temp = ""
         for item in data1['items']:
-            tempdata = tempdata + item['name']
-        await ctx.send("As requested this is the list of clan members: " + tempdata)
+            temp = temp + item['name'] + "\n"
+        await ctx.send(ctx.author.mention + f"\nThere are a total of {len(data1['items'])} members. \nAs requested, "
+                                            f"this is the list of clan members:\n\n" + temp)
     else:
-        await ctx.send("Invalid input, please try again from !clan-info.")
+        await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
+
 
 # ===================================================== #
 
