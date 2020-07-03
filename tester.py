@@ -7,7 +7,7 @@ from pytz import timezone
 import asyncio
 import requests
 
-version = "mangoBot tester"
+vname = "mangoBot tester"
 
 # ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
@@ -20,7 +20,7 @@ async def on_ready():
 
 @bot.command(name='version', help='Shows current version of mangoBot')
 async def version(ctx):
-    await ctx.send("Current Build: " + version)
+    await ctx.send("Current Build: " + vname)
 
 
 @bot.command(name='hello', help='mangoBot greets you.')
