@@ -250,7 +250,7 @@ async def data(ctx):
 
     def check(m):
         return m.author == ctx.author
-    msg = (await bot.wait_for('message', check=check)).content
+    msg = (await bot.wait_for('message', check=check)).content.lower()
     if msg == "member":
         await ctx.send("Name of player?")
         msg = (await bot.wait_for('message', check=check)).content
@@ -268,6 +268,9 @@ async def data(ctx):
         if not x:
             await ctx.send("Player info not found.")
     elif msg == "war":
+        if data2.state == "notInWar":
+            await ctx.send("We are currently not in war.")
+            return;
         await ctx.send("Name of player?")
         msg = (await bot.wait_for('message', check=check)).content
         for item in data2['participants']:
@@ -282,6 +285,11 @@ async def data(ctx):
                 break
         if not x:
             await ctx.send("Player info not found.")
+    elif msg == "members":
+        tempdata = ""
+        for item in data1['items']:
+            tempdata = tempdata + item['name']
+        await ctx.send("As requested this is the list of clan members: " + tempdata)
     else:
         await ctx.send("Invalid input, please try again from !clan-info.")
 
