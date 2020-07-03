@@ -7,7 +7,7 @@ from pytz import timezone
 import asyncio
 import requests
 
-vname = "mangoBot v2.1"
+version = "mangoBot v2.1"
 
 # ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
@@ -18,9 +18,9 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name='version', help='Shows current version of mangoBot')
+@bot.command(name='ver', help='Shows current version of mangoBot')
 async def version(ctx):
-    await ctx.send("Current Build: " + vname)
+    await ctx.send("Current Build: " + version)
 
 
 @bot.command(name='hello', help='mangoBot greets you.')
