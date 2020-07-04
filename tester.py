@@ -18,6 +18,83 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
+@bot.command(name='test')
+async def test(ctx):
+    msg = await ctx.send("This should be deleted.")
+    await asyncio.sleep(5)
+    await msg.delete()
+
+
+@bot.command(name='c', help='mangoBot deletes your messages. Specify number of messages to delete.')
+async def clear(ctx, *args):
+
+    if len(args) == 0:
+        await ctx.message.delete()
+        messages = ctx.channel.history().filter(lambda m: m.author == ctx.author)
+        limit = 1
+        i = 1
+        async for x in messages:
+            if i <= limit:
+                await x.delete()
+            else:
+                print("Messages deleted:", i - 1)
+                break
+            i += 1
+    else:
+        try:
+            limit = int(args[0])
+        except ValueError:
+            msg = await ctx.send("Invalid. Careful, !c is a delete command.")
+            await asyncio.sleep(5)
+            await msg.delete()
+            return
+
+        if int(args[0]) > 10:
+            msg1 = await ctx.send("You are deleting more than 10 messages. 'Y' to confirm.")
+
+            def check(m):
+                return m.author == ctx.author
+
+            try:
+                msg = (await bot.wait_for('message', check=check, timeout=10.0)).content
+            except asyncio.TimeoutError:
+                msg = await ctx.send(ctx.author.mention + "\n" + "Time is up. Delete aborted.")
+                await asyncio.sleep(5)
+                await msg1.delete()
+                await msg.delete()
+                return
+            if msg == "Y":
+                await ctx.message.delete()
+                messages = ctx.channel.history().filter(lambda m: m.author == ctx.author)
+                limit = int(args[0]) + 1
+                i = 1
+                async for x in messages:
+                    if i <= limit:
+                        await x.delete()
+                    else:
+                        print("Messages deleted:", i - 2)
+                        break
+                    i += 1
+                msg2 = await ctx.send(str(limit-1) + " of your messages are deleted.")
+                await asyncio.sleep(5)
+                await msg1.delete()
+                await msg2.delete()
+            else:
+                await ctx.send("Invalid command.")
+        else:
+            await ctx.message.delete()
+            messages = ctx.channel.history().filter(lambda m: m.author == ctx.author)
+            limit = int(args[0])
+            i = 1
+            async for x in messages:
+                if i <= limit:
+                    await x.delete()
+                else:
+                    print("Messages deleted:", i - 1)
+                    break
+                i += 1
+
+
 @bot.command(name='guess', help='just a fun feature. Tee Hee.')
 async def guess(ctx):
     await ctx.send('Guess a number from 1-10: ')
@@ -74,7 +151,7 @@ async def greet(ctx):
     def check(m):
         return m.author == ctx.author
 
-    msg = (await bot.wait_for('message', check=check)).content.lower()
+    await bot.wait_for('message', check=check)
     import textfaces
     response = random.choice(textfaces.textfaces)
     await ctx.send(response)
@@ -108,7 +185,7 @@ async def quiz(ctx):
         return m.author == ctx.author
 
     try:
-        msg = (await bot.wait_for('message', check=check)).content.lower()
+        msg = (await bot.wait_for('message', check=check, timeout=15.0)).content.lower()
     except asyncio.TimeoutError:
         await ctx.send(ctx.author.mention + "\n" + "Time is up. The correct answer is: {0}".format(answer))
         return
