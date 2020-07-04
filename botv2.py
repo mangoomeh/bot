@@ -22,6 +22,7 @@ async def on_ready():
 async def guess(ctx):
     await ctx.send('Guess a number from 1-10: ')
     number = random.randint(1, 10)
+    print(number)
 
     def check(m):
         return m.author == ctx.author
@@ -29,7 +30,7 @@ async def guess(ctx):
     msg = (await bot.wait_for('message', check=check)).content.lower()
     if msg == "!guess":
         return
-    if msg == number:
+    if msg == str(number):
         await ctx.send("Well you guessed it!")
     else:
         await ctx.send(f"NOOOO! It's {number}!!!")
@@ -186,8 +187,6 @@ async def data(ctx):
                                             f"this is the list of clan members:\n\n" + temp)
     else:
         await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
-
-
 # ==================================================================================================================== #
 
 bot.run(os.environ['token'])
