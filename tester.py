@@ -122,7 +122,11 @@ async def guess(ctx):
         def check(m):
             return m.author == ctx.author
 
-        msg = (await bot.wait_for('message', check=check))
+        try:
+            msg = (await bot.wait_for('message', check=check, timeout=10.0))
+        except asyncio.TimeoutError:
+            await botmsg1.delete()
+            break
         if msg.content.lower() == "!guess":
             await botmsg1.delete()
             await msg.delete()
