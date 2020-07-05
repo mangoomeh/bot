@@ -7,6 +7,7 @@ from pytz import timezone
 import asyncio
 import requests
 
+
 vname = "mangoBot tester"
 
 # ==================================================================================================================== #
@@ -264,7 +265,5 @@ async def data(ctx):
                                             f"this is the list of clan members:\n\n" + temp)
     else:
         await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
-
-
 # ==================================================================================================================== #
 bot.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')

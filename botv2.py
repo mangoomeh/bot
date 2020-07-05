@@ -18,13 +18,6 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name='test')
-async def test(ctx):
-    msg = await ctx.send("This should be deleted.")
-    await asyncio.sleep(5)
-    await msg.delete()
-
-
 @bot.command(name='c', help='mangoBot deletes your messages. Specify number of messages to delete.')
 async def clear(ctx, *args):
 
