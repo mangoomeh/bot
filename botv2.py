@@ -7,7 +7,7 @@ from pytz import timezone
 import asyncio
 import requests
 
-vname = "mangoBot v2.1"
+vname = "mangoBot v2.2"
 
 # ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
