@@ -9,7 +9,7 @@ import requests
 from youtubesearchpython import searchYoutube
 import ast
 
-vname = "mangoBot v2.2"
+vname = "mangoBot v2.3"
 
 # ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
