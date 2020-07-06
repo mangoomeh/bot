@@ -21,15 +21,18 @@ async def on_ready():
 
 
 @bot.command(name='u', help='mangoBot searches youtube and returns top search.')
-async def test(ctx):
+async def youtube(ctx):
     def check(m):
         return m.author == ctx.author
 
-    await ctx.send("Your search?")
+    botmsg = await ctx.send("Your search?")
     msg = (await bot.wait_for('message', check=check))
     query = msg.content
     search = (searchYoutube(query, offset=1, mode="json", max_results=1)).result()
     url = ast.literal_eval(search)
+    await ctx.message.delete()
+    await botmsg.delete()
+    await msg.delete()
     await ctx.send(url['search_result'][0]['link'])
 
 
