@@ -6,6 +6,8 @@ from datetime import datetime
 from pytz import timezone
 import asyncio
 import requests
+from youtubesearchpython import searchYoutube
+import ast
 
 
 vname = "mangoBot tester"
@@ -19,18 +21,17 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name='test')
+@bot.command(name='u', help='mangoBot searches youtube and returns top search.')
 async def test(ctx):
-    try:
-        botmsg = await ctx.send("This should be deleted.")
-        msg = (await bot.wait_for('message'))
-        print(msg.content)
-        await asyncio.sleep(5)
-        await msg.delete()
-        await botmsg.delete()
-    except ValueError:
-        print("error")
-    print(msg.content)
+    def check(m):
+        return m.author == ctx.author
+
+    await ctx.send("Your search?")
+    msg = (await bot.wait_for('message', check=check))
+    query = msg.content
+    search = (searchYoutube(query, offset=1, mode="json", max_results=1)).result()
+    url = ast.literal_eval(search)
+    await ctx.send(url['search_result'][0]['link'])
 
 
 @bot.command(name='ver', help='Shows current version of mangoBot')
@@ -365,7 +366,7 @@ async def data(ctx):
         await ctx.message.delete()
         await botmsg1.delete()
         await msg1.delete()
-        await asyncio.wait(10)
+        await asyncio.sleep(10)
         await botmsg2.delete()
     else:
         botmsg2 = await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
