@@ -368,7 +368,7 @@ async def data(ctx):
             await botmsg2.delete()
             await msg2.delete()
             await botmsg3.delete()
-    elif msg1 == "members":
+    elif msg1.content == "members":
         temp = ""
         for item in data1['items']:
             temp = temp + item['name'] + ", "
