@@ -31,7 +31,7 @@ async def youtube(ctx):
     except asyncio.TimeoutError:
         botmsg2 = (await ctx.send("Timeout. Try again at !u."))
         await asyncio.sleep(5)
-        await ctx.message.delete
+        await ctx.message.delete()
         await botmsg.delete()
         await botmsg2.delete()
         return
