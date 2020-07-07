@@ -26,7 +26,16 @@ async def youtube(ctx):
         return m.author == ctx.author
 
     botmsg = await ctx.send("Your search?")
-    msg = (await bot.wait_for('message', check=check))
+    try:
+        msg = (await bot.wait_for('message', check=check, timeout=10.0))
+    except asyncio.TimeoutError:
+        botmsg2 = (await ctx.send("Timeout. Try again at !u."))
+        await asyncio.sleep(5)
+        await ctx.message.delete
+        await botmsg.delete()
+        await botmsg2.delete()
+        return
+
     query = msg.content
     search = (searchYoutube(query, offset=1, mode="json", max_results=1)).result()
     url = ast.literal_eval(search)
