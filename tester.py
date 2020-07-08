@@ -21,6 +21,130 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
+@bot.command(name='test')
+async def game(ctx, a: int):
+    class player():
+        def __init__(self, score, name, id):
+            self.score = score
+            self.name = name
+            self.id = id
+
+        def win(self):
+            self.score += 1
+
+        def lose(self):
+            self.score -= 1
+
+        def info(self):
+            return f"Name:   {self.name}\nScore:   {self.score}"
+
+    def check1(m):
+        return m.author != msg1.author
+
+    botmsg1 = (await ctx.send("Player 1 Please Type in Your Name."))
+    msg1 = (await bot.wait_for('message'))
+    botmsg2 = (await ctx.send("Player 2 Please Type in Your Name."))
+    msg2 = (await bot.wait_for('message', check=check1))
+    #botmsg3 = (await ctx.send("Player 3 Please Type in Your Name."))
+    #msg3 = (await bot.wait_for('message'))
+    #botmsg4 = (await ctx.send("Player 4 Please Type in Your Name."))
+    #msg4 = (await bot.wait_for('message'))
+
+    await botmsg1.delete()
+    await botmsg2.delete()
+    await msg1.delete()
+    await msg2.delete()
+    #await botmsg3.delete()
+    #await botmsg4.delete()
+    #await msg3.delete()
+    #await msg4.delete()
+
+    p1 = player(0, msg1.content, msg1.author)
+    p2 = player(0, msg2.content, msg2.author)
+    #p3 = player(0, msg3.content, msg3.author)
+    #p4 = player(0, msg4.content, msg4.author)
+
+    await ctx.send(p1.info())
+    await ctx.send(p2.info())
+    #await ctx.send(p3.info())
+    #await ctx.send(p4.info())
+
+    import quiz
+    questions = quiz.quizset
+    answers = quiz.answers
+
+    for x in range(a):
+
+        score1 = await ctx.send(p1.info())
+        score2 = await ctx.send(p2.info())
+        #score3 = await ctx.send(p3.info())
+        #score4 = await ctx.send(p4.info())
+
+        index = random.randint(0, len(questions) - 1)
+        question = questions[index]
+        answer = answers[index]
+        botmsg1 = await ctx.send(question)
+
+
+        def check2(m):
+            a = m.author == p1.id
+            b = m.author == p2.id
+            #c = m.author == p3.id
+            #d = m.author == p4.id
+            e = a or b
+            return m.author != bot.user and e
+
+        try:
+            msg = (await bot.wait_for('message', check=check2, timeout=15.0))
+        except asyncio.TimeoutError:
+            botmsg2 = await ctx.send("Time is up. The correct answer is: {0}".format(answer))
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            return
+        if msg.content.lower() == answer.lower():
+            botmsg2 = await ctx.send(msg.author.mention + "\n" + "That's right!")
+            if msg.author == p1.id:
+                p1.win()
+            elif msg.author == p2.id:
+                p2.win()
+            #elif msg.author == p3.id:
+                #p3.win()
+            #elif msg.author == p4.id:
+                #p4.win()
+
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            await msg.delete()
+        else:
+            botmsg2 = await ctx.send(msg.author.mention + "\n" + "The correct answer is: " + answer)
+            if msg.author == p1.id:
+                p1.lose()
+            elif msg.author == p2.id:
+                p2.lose()
+            #elif msg.author == p3.id:
+                #p3.lose()
+            #elif msg.author == p4.id:
+                #p4.lose()
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            await msg.delete()
+
+        await score1.delete()
+        await score2.delete()
+        #await score3.delete()
+        #await score4.delete()
+
+    await ctx.send("Good game and well played. Here are the scores:")
+    await ctx.send(p1.info())
+    await ctx.send(p2.info())
+    #await ctx.send(p3.info())
+    #await ctx.send(p4.info())
+
+
+
 @bot.command(name='u', help='mangoBot searches youtube and returns top search.')
 async def test(ctx):
     def check(m):

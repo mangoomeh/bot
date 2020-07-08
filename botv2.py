@@ -9,7 +9,7 @@ import requests
 from youtubesearchpython import searchYoutube
 import ast
 
-vname = "mangoBot v2.3"
+vname = "mangoBot v2.4"
 
 # ==================================================================================================================== #
 bot = commands.Bot(command_prefix='!')
@@ -78,7 +78,7 @@ async def clear(ctx, *args):
             return
 
         if int(args[0]) > 10:
-            botmsg1 = await ctx.send("You are deleting more than 10 messages. 'Y' to confirm.")
+            botmsg1 = (await ctx.send("You are deleting more than 10 messages. 'Y' to confirm."))
 
             def check(m):
                 return m.author == ctx.author
@@ -103,7 +103,7 @@ async def clear(ctx, *args):
                         print("Messages deleted:", i - 2)
                         break
                     i += 1
-                botmsg2 = await ctx.send(str(limit-1) + " of your messages are deleted.")
+                botmsg2 = (await ctx.send(str(limit-1) + " of your messages are deleted."))
                 await asyncio.sleep(5)
                 await msg.delete()
                 await botmsg1.delete()

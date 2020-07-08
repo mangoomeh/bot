@@ -18,6 +18,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    print(message.content)
     if message.author == client.user or message.content.startswith('!') is not True:
         return
     args = message.content.split(' ')
@@ -284,4 +285,4 @@ async def on_message(message):
 
 # ===================================================== #
 
-client.run(os.environ['token'])
+client.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')
