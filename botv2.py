@@ -78,6 +78,7 @@ async def overclear(ctx, a: int):
     botmsg = await ctx.send('Integer?')
     msg = await bot.wait_for('message', check=owner)
     limit = int(msg.content)
+    await botmsg.delete()
     i = 1
     async for x in messages:
         if i <= limit:
