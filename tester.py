@@ -41,6 +41,24 @@ async def z(ctx):
     await botmsg.delete()
 
 
+@bot.command(name='C', description=me)
+@commands.check(owner)
+async def overclear(ctx, a: int):
+    await ctx.message.delete()
+    messages = ctx.channel.history().filter(lambda m: m.author.id == int(a))
+    botmsg = await ctx.send('Integer?')
+    msg = await bot.wait_for('message', check=owner)
+    limit = int(msg.content)
+    i = 1
+    async for x in messages:
+        if i <= limit:
+            await x.delete()
+        else:
+            print("Messages deleted:", i - 1)
+            break
+        i += 1
+
+
 @bot.command(name='ztest', description=f'{me}')
 @commands.check(owner)
 async def test(ctx):
