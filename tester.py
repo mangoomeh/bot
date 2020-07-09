@@ -26,14 +26,15 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name="z", description="Shows this message")
+@bot.command(name="z", description=f'{me}')
 async def z(ctx):
     await ctx.message.delete()
     helptext = "```"
+    helptext += "{0:8} | {1}\n".format("Commands", "Function")
     for command in bot.commands:
         x = str(command.description) == me
         if x:
-            helptext += "!{0:5}   {1}\n".format(str(command), str(command.description))
+            helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
     botmsg = await ctx.send(helptext)
     await asyncio.sleep(3)
@@ -91,12 +92,16 @@ async def mangoclear(ctx, a: int):
 @bot.command(name="help", description="Shows this message")
 async def h(ctx):
     helptext = "```"
+    helptext += "{0:8} | {1}\n".format("Commands", "Function")
     for command in bot.commands:
         x = str(command.description) == me
         if not x:
-            helptext += "!{0:5}   {1}\n".format(str(command), str(command.description))
+            helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    await ctx.send(helptext)
+    botmsg = await ctx.send(helptext)
+    await ctx.message.delete()
+    await asyncio.sleep(10)
+    await botmsg.delete()
 
 
 @bot.command(name='ver', description='Shows current version')
