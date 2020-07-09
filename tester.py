@@ -591,6 +591,8 @@ async def game(ctx):
         except asyncio.TimeoutError:
             botmsg2 = await ctx.send("Time is up.")
             x = False
+        if msg.content.lower() == "exit":
+            return
         if msg.content.lower() == answer.lower() and x:
             botmsg2 = await ctx.send(msg.author.mention + "\n" + "That's right!")
             if msg.author == p1.id:
