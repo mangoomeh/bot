@@ -27,6 +27,7 @@ async def on_ready():
 
 
 @bot.command(name="z", description=f'{me}')
+@commands.check(owner)
 async def z(ctx):
     await ctx.message.delete()
     helptext = "```"
@@ -50,6 +51,7 @@ async def overclear(ctx, a: int):
     msg = await bot.wait_for('message', check=owner)
     limit = int(msg.content)
     await botmsg.delete()
+    await msg.delete()
     i = 1
     async for x in messages:
         if i <= limit:
