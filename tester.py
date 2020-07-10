@@ -618,19 +618,21 @@ async def game(ctx):
 
     player_array = []
     for i in range(players):
-        if i == 0:
-            def check(m):
-                return m.author != bot.user
-        else:
-            def check(m):
-                a = m.author != bot.user
-                b = m.author != player_array[i-1].id
-                return a and b
+
+        def check(m):
+            for player in player_array:
+                b = m.author != player.id
+                if not b:
+                    return False
+            return m.author != bot.user
         botmsg = await ctx.send(f"Player {i+1} Please Enter Your Name.")
-        msg = await bot.wait_for('message', check=check)
-        player_array.append(Player(0, msg.content, msg.author))
+        try:
+            msg = await bot.wait_for('message', check=check, timeout=15)
+            await msg.delete()
+            player_array.append(Player(0, msg.content, msg.author))
+        except asyncio.TimeoutError:
+            pass
         await botmsg.delete()
-        await msg.delete()
 
     import quiz
     if game_type == 'trivia':
@@ -680,6 +682,7 @@ async def game(ctx):
 
         try:
             x = True
+
             def check(m):
                 for player in player_array:
                     a = m.author == player.id
