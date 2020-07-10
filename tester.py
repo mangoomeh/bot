@@ -536,7 +536,7 @@ async def data(ctx):
 
 
 # VERSUS
-@bot.command(name='versus', description='Quiz PK')
+@bot.command(name='vs', description='Quiz PK')
 async def game(ctx):
     await ctx.message.delete()
 
