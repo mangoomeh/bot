@@ -705,7 +705,7 @@ async def game(ctx):
             botmsg2 = await ctx.send("\n" + "The correct answer is: " + answer)
             for player in player_array:
                 if msg.author == player.id:
-                    player.win()
+                    player.lose()
                     break
             await asyncio.sleep(5)
             await botmsg1.delete()
