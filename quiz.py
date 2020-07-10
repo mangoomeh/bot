@@ -1,5 +1,5 @@
 # quiz.py
-quizset = [
+trivia_quiz_set = [
     "The tallest building in the world is located in which city?",  # 1
     "Which year was the original Toy Story film released in the US?",  # 2
     "Name the current UK Home Secretary",  # 3
@@ -73,7 +73,7 @@ quizset = [
     "How many hours does Magical Chest take to open?"  # 71
 ]
 
-answers = [
+trivia_answers = [
     "Dubai",  # 1
     "1995",  # 2
     "Priti Patel",  # 3
@@ -146,3 +146,29 @@ answers = [
     "12",  # 69
     "12"  # 70
 ]
+
+management_quiz_set = ["There are 2 tracks for Elders in the Clan. One track is Performance, the other track is?",
+                       "Only 1 co-leader is allowed in the Clan. True or False?",
+                       "The only way to stay in the Clan is by donating a lot. True or False?",
+                       "A fair combination of arena level and donation will be sufficient to stay in the Clan. True or False?",
+                       "Elders have a higher requirement to meet than Members. True or False?",
+                       "In Clash Royale, elders have the 'kick' button in the profiles they view for members. True or False?",
+                       "How many points do you score for being in Master II?",
+                       "How many points do you score for being in Arena 10?",
+                       "How many points do you score for being in Grand Champion?",
+                       "How many points do you score for donating cards of 1200 value?",
+                       "How many points do you score for donating cards of 432 value?",
+                       "How many points must Star Elder, Co-leader and Leader score each week?"]
+
+management_answers = ["Management",
+                      "False",
+                      "False",
+                      "True",
+                      "True",
+                      "True",
+                      "8",
+                      "1",
+                      "10",
+                      "55",
+                      "40",
+                      "58"]

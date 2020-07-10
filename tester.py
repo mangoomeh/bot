@@ -143,6 +143,45 @@ async def time(ctx):
     await ctx.message.delete()
 
 
+@bot.command(name='m', description='Math Quiz')
+async def math(ctx):
+    await ctx.message.delete()
+    while True:
+        a = random.randint(1, 99)
+        b = random.randint(50, 99)
+        c = random.randint(1, 5)
+        d = random.randint(1, 5)
+        question = f"{a} x ({c}+{d}) + {b} = ?"
+        answer = str(a*(c+d)+b)
+        botmsg1 = await ctx.send(question)
+        try:
+            def check(m):
+                return m.author == ctx.message.author
+            msg = await bot.wait_for('message', check=check, timeout=15)
+        except asyncio.TimeoutError:
+            botmsg2 = await ctx.send(f'Time is up. Answer: {answer}')
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            return
+        if msg.content == 'exit':
+            await msg.delete()
+            await botmsg1.delete()
+            return
+        elif msg.content == answer:
+            botmsg2 = await ctx.send("That's right!")
+            await asyncio.sleep(3)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            await msg.delete()
+        else:
+            botmsg2 = await ctx.send(f"The correct answer is: {answer}")
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            await msg.delete()
+
+
 @bot.command(name='u', description='Youtube')
 async def youtube(ctx):
     def check(m):
@@ -497,36 +536,69 @@ async def data(ctx):
 
 
 # VERSUS
-@bot.command(name='vs', description='Quiz PK')
+@bot.command(name='versus', description='Quiz PK')
 async def game(ctx):
     await ctx.message.delete()
 
-    def gcheck(m):
-        return m.author != bot.user
-
+    # Check if message is from command author
     def check(m):
+        return m.author == ctx.message.author
+
+    # What type of quiz?
+    botmsg1 = await ctx.send("What type of quiz? (management/math/trivia)")
+    try:
+        while True:
+            msg1 = await bot.wait_for('message', check=check, timeout=15)
+            game_type = msg1.content
+            if game_type != 'management' and game_type != 'math' and game_type != 'trivia':
+                await botmsg1.edit(content='No such type. Please enter either management, math or trivia.')
+            else:
+                break
+    except asyncio.TimeoutError:
+        botmsg2 = await ctx.send("Timeout.")
+        await asyncio.sleep(3)
+        await botmsg1.delete()
+        await botmsg2.delete()
+        return
+
+    # Check if reply is an integer value and message is from command author
+    def checkint(m):
         try:
             int(m.content)
         except ValueError:
             return False
         return m.author == ctx.message.author
 
+    # How many players?
+    botmsg1 = await ctx.send("How many players?")
     try:
-        botmsg1 = await ctx.send("How many questions are we playing?")
-        msg = await bot.wait_for('message', check=check, timeout=10)
+        msg1 = await bot.wait_for('message', check=checkint, timeout=15)
+        players = int(msg1.content)
+        await botmsg1.delete()
+        await msg1.delete()
     except asyncio.TimeoutError:
-        botmsg2 = await ctx.send('Timeout. Game aborted.')
+        botmsg2 = await ctx.send("Timeout.")
         await asyncio.sleep(3)
-        await ctx.message.delete()
         await botmsg1.delete()
         await botmsg2.delete()
         return
 
-    await botmsg1.delete()
-    await msg.delete()
-    games = int(msg.content)
+    # How many rounds?
+    botmsg1 = await ctx.send("How many rounds are we playing?")
+    try:
+        msg1 = await bot.wait_for('message', check=checkint, timeout=15)
+        games = int(msg1.content)
+        await botmsg1.delete()
+        await msg1.delete()
+    except asyncio.TimeoutError:
+        botmsg2 = await ctx.send('Timeout.')
+        await asyncio.sleep(3)
+        await botmsg1.delete()
+        await botmsg2.delete()
+        return
 
-    class player():
+    # Generate Player Classes
+    class Player:
         def __init__(self, score, name, id):
             self.score = score
             self.name = name
@@ -541,104 +613,100 @@ async def game(ctx):
         def info(self):
             return f"Name:   {self.name}\nScore:   {self.score}"
 
-    botmsg1 = (await ctx.send("Player 1 Please Type in Your Name."))
-    msg1 = (await bot.wait_for('message', check=gcheck))
-
-    def check1(m):
-        x = m.author != bot.user
-        y = m.author != msg1.author
-        return x and y
-
-    botmsg2 = (await ctx.send("Player 2 Please Type in Your Name."))
-    msg2 = (await bot.wait_for('message', check=check1))
-    # botmsg3 = (await ctx.send("Player 3 Please Type in Your Name."))
-    # msg3 = (await bot.wait_for('message'))
-    # botmsg4 = (await ctx.send("Player 4 Please Type in Your Name."))
-    # msg4 = (await bot.wait_for('message'))
-
-    await botmsg1.delete()
-    await botmsg2.delete()
-    await msg1.delete()
-    await msg2.delete()
-    # await botmsg3.delete()
-    # await botmsg4.delete()
-    # await msg3.delete()
-    # await msg4.delete()
-
-    p1 = player(0, msg1.content, msg1.author)
-    p2 = player(0, msg2.content, msg2.author)
-    # p3 = player(0, msg3.content, msg3.author)
-    # p4 = player(0, msg4.content, msg4.author)
+    player_array = []
+    for i in range(players):
+        if i == 0:
+            def check(m):
+                return m.author != bot.user
+        else:
+            def check(m):
+                a = m.author != bot.user
+                b = m.author != player_array[i].id
+                return a and b
+        botmsg = await ctx.send(f"Player {i+1} Please Enter Your Name.")
+        msg = await bot.wait_for('message', check=check)
+        player_array.append(Player(0, msg.content, msg.author))
+        await botmsg.delete()
+        await msg.delete()
 
     import quiz
-    questions = quiz.quizset
-    answers = quiz.answers
+    if game_type == 'trivia':
+        questions = quiz.trivia_quiz_set
+        answers = quiz.trivia_answers
+    elif game_type == 'management':
+        questions = quiz.management_quiz_set
+        answers = quiz.management_answers
+    elif game_type == 'math':
+        pass
+    else:
+        botmsg = await ctx.send('No such type of quiz.')
+        await asyncio.sleep(3)
+        await botmsg.delete()
+        return
 
     for x in range(games):
+        score_msg_array = []
+        for i in range(len(player_array)):
+            score_msg_array.append(await ctx.send(player_array[i].info()))
 
-        score1 = await ctx.send(p1.info())
-        score2 = await ctx.send(p2.info())
-        # score3 = await ctx.send(p3.info())
-        # score4 = await ctx.send(p4.info())
+        if game_type == 'trivia' or game_type == 'management':
+            index = random.randint(0, len(questions) - 1)
+            question = questions[index]
+            answer = answers[index]
 
-        index = random.randint(0, len(questions) - 1)
-        question = questions[index]
-        answer = answers[index]
+        elif game_type == 'math':
+            a = random.randint(1, 99)
+            b = random.randint(50, 99)
+            c = random.randint(1, 5)
+            d = random.randint(1, 5)
+            question = f"{a} x ({c}+{d}) + {b} = ?"
+            answer = str(a * (c + d) + b)
+
         waitmsg = await ctx.send('Question coming up in 5...')
-        await asyncio.sleep(0.7)
+        await asyncio.sleep(1)
         await waitmsg.edit(content='Question coming up in 4')
-        await asyncio.sleep(0.7)
+        await asyncio.sleep(1)
         await waitmsg.edit(content='Question coming up in 3')
-        await asyncio.sleep(0.7)
+        await asyncio.sleep(1)
         await waitmsg.edit(content='Question coming up in 2')
-        await asyncio.sleep(0.7)
+        await asyncio.sleep(1)
         await waitmsg.edit(content='Question coming up in 1')
+        await asyncio.sleep(1)
         await waitmsg.delete()
-        await asyncio.sleep(0.7)
         botmsg1 = await ctx.send(question)
-
-        def check2(m):
-            a = m.author == p1.id
-            b = m.author == p2.id
-            # c = m.author == p3.id
-            # d = m.author == p4.id
-            e = a or b
-            # f = c or d
-            return m.author != bot.user and e
 
         try:
             x = True
-            msg = (await bot.wait_for('message', check=check2, timeout=15.0))
+            def check(m):
+                for player in player_array:
+                    a = m.author == player.id
+                    if a:
+                        return a
+                return False
+            msg = (await bot.wait_for('message', check=check, timeout=15.0))
         except asyncio.TimeoutError:
             botmsg2 = await ctx.send("Time is up.")
             x = False
         if msg.content.lower() == "exit":
+            await botmsg1.delete()
+            await msg.delete()
             return
         if msg.content.lower() == answer.lower() and x:
             botmsg2 = await ctx.send(msg.author.mention + "\n" + "That's right!")
-            if msg.author == p1.id:
-                p1.win()
-            elif msg.author == p2.id:
-                p2.win()
-            # elif msg.author == p3.id:
-            # p3.win()
-            # elif msg.author == p4.id:
-            # p4.win()
-
+            for player in player_array:
+                if msg.author == player.id:
+                    player.win()
+                    break
             await asyncio.sleep(5)
             await botmsg1.delete()
             await botmsg2.delete()
             await msg.delete()
         elif x:
             botmsg2 = await ctx.send("\n" + "The correct answer is: " + answer)
-            if msg.author == p1.id:
-                p1.lose()
-            elif msg.author == p2.id:
-                p2.lose()
-            # elif msg.author == p3.id:
-            # p3.lose()
-            # elif msg.author == p4.id:
-            # p4.lose()
+            for player in player_array:
+                if msg.author == player.id:
+                    player.win()
+                    break
             await asyncio.sleep(5)
             await botmsg1.delete()
             await botmsg2.delete()
@@ -650,19 +718,16 @@ async def game(ctx):
             await botmsg2.delete()
             await botmsg3.delete()
 
-        await score1.delete()
-        await score2.delete()
-        # await score3.delete()
-        # await score4.delete()
+        for score in score_msg_array:
+            await score.delete()
 
     botmsg1 = await ctx.send("Good game and well played! Here are the scores:")
-    botmsg2 = await ctx.send(p1.info())
-    botmsg3 = await ctx.send(p2.info())
+    score_msg_array = []
+    for i in range(len(player_array)):
+        score_msg_array.append(await ctx.send(player_array[i].info()))
     await asyncio.sleep(10)
     await botmsg1.delete()
-    await botmsg2.delete()
-    await botmsg3.delete()
-    # await ctx.send(p3.info())
-    # await ctx.send(p4.info())
+    for score in score_msg_array:
+        await score.delete()
 # ==================================================================================================================== #
 bot.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')
