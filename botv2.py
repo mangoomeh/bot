@@ -536,7 +536,7 @@ async def data(ctx):
 
 
 # VERSUS
-@bot.command(name='vs', description='Quiz PK')
+@bot.command(name='versus', description='Quiz PK')
 async def game(ctx):
     await ctx.message.delete()
 
@@ -624,7 +624,7 @@ async def game(ctx):
         else:
             def check(m):
                 a = m.author != bot.user
-                b = m.author != player_array[i].id
+                b = m.author != player_array[i-1].id
                 return a and b
         botmsg = await ctx.send(f"Player {i+1} Please Enter Your Name.")
         msg = await bot.wait_for('message', check=check)

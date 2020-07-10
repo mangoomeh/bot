@@ -551,6 +551,7 @@ async def game(ctx):
             msg1 = await bot.wait_for('message', check=check, timeout=15)
             game_type = msg1.content
             if game_type != 'management' and game_type != 'math' and game_type != 'trivia':
+                await msg1.delete()
                 await botmsg1.edit(content='No such type. Please enter either management, math or trivia.')
             else:
                 break
@@ -560,6 +561,8 @@ async def game(ctx):
         await botmsg1.delete()
         await botmsg2.delete()
         return
+    await botmsg1.delete()
+    await msg1.delete()
 
     # Check if reply is an integer value and message is from command author
     def checkint(m):
@@ -621,7 +624,7 @@ async def game(ctx):
         else:
             def check(m):
                 a = m.author != bot.user
-                b = m.author != player_array[i].id
+                b = m.author != player_array[i-1].id
                 return a and b
         botmsg = await ctx.send(f"Player {i+1} Please Enter Your Name.")
         msg = await bot.wait_for('message', check=check)
