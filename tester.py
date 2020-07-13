@@ -58,7 +58,7 @@ async def on_message(message):
         await message.channel.send(file=discord.File("eat.png"), delete_after=5)
     if emote("pig"):
         await message.channel.send(file=discord.File("pig.png"), delete_after=5)
-    if emote("yeah", "ok", "noted"):
+    if emote("yeah", "ok", "noted", "good"):
         await message.channel.send(file=discord.File("yeah.png"), delete_after=5)
     elif emote("no"):
         await message.channel.send(file=discord.File("no.png"), delete_after=5)

@@ -10,9 +10,7 @@ import requests
 from youtubesearchpython import searchYoutube
 import ast
 
-
-
-vname = "mangoBot v3.1"
+vname = "mangoBot v3.2"
 
 # ==================================================================================================================== #
 me = "Only usable by mangoomeh"
@@ -60,7 +58,7 @@ async def on_message(message):
         await message.channel.send(file=discord.File("eat.png"), delete_after=5)
     if emote("pig"):
         await message.channel.send(file=discord.File("pig.png"), delete_after=5)
-    if emote("yeah", "ok", "noted"):
+    if emote("yeah", "ok", "noted", "good"):
         await message.channel.send(file=discord.File("yeah.png"), delete_after=5)
     elif emote("no"):
         await message.channel.send(file=discord.File("no.png"), delete_after=5)
@@ -197,11 +195,12 @@ async def math(ctx):
         c = random.randint(1, 5)
         d = random.randint(1, 5)
         question = f"{a} x ({c}+{d}) + {b} = ?"
-        answer = str(a*(c+d)+b)
+        answer = str(a * (c + d) + b)
         botmsg1 = await ctx.send(question)
         try:
             def check(m):
                 return m.author == ctx.message.author
+
             msg = await bot.wait_for('message', check=check, timeout=15)
         except asyncio.TimeoutError:
             botmsg2 = await ctx.send(f'Time is up. Answer: {answer}')
@@ -257,7 +256,7 @@ async def youtube(ctx):
         title = search_results['search_result'][i]['title']
         duration = search_results['search_result'][i]['duration']
         link = search_results['search_result'][i]['link']
-        botmsg += f"({i+1}) {title} [{duration}]\n"
+        botmsg += f"({i + 1}) {title} [{duration}]\n"
         link_array.append(link)
 
     botmsg1 = await ctx.send(botmsg)
@@ -701,7 +700,8 @@ async def game(ctx):
                 if not b:
                     return False
             return m.author != bot.user
-        botmsg = await ctx.send(f"Player {i+1} Please Enter Your Name.")
+
+        botmsg = await ctx.send(f"Player {i + 1} Please Enter Your Name.")
         try:
             msg = await bot.wait_for('message', check=check, timeout=15)
             await msg.delete()
@@ -774,6 +774,7 @@ async def game(ctx):
                     if a:
                         return a
                 return False
+
             msg = (await bot.wait_for('message', check=check, timeout=15.0))
         except asyncio.TimeoutError:
             botmsg2 = await ctx.send("Time is up. The correct answer is: " + answer)
@@ -817,6 +818,8 @@ async def game(ctx):
     await botmsg1.delete()
     for score in score_msg_array:
         await score.delete()
+
+
 # ==================================================================================================================== #
 
 bot.run(os.environ['token'])
