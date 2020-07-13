@@ -136,7 +136,7 @@ trivia_answers = [
     "Neptune",  # 59
     "Donkey Kong",  # 60
     "Onion Kingdom",  # 61
-    "F",  # 62
+    "T",  # 62
     "Hog Mountain",  # 63
     "1000",  # 64
     "F",  # 65
