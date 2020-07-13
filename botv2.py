@@ -1,6 +1,7 @@
 # botv2.py
 import random
 import os
+import discord
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -8,6 +9,8 @@ import asyncio
 import requests
 from youtubesearchpython import searchYoutube
 import ast
+
+
 
 vname = "mangoBot v3.1"
 
@@ -24,6 +27,24 @@ def owner(m):
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+
+
+@bot.event
+async def on_message(message):
+    a = "yawn" in message.content.lower()
+    b = "haha" in message.content.lower()
+    c = "wth" in message.content.lower()
+    d = "???" in message.content.lower()
+    e = "sad" in message.content.lower()
+    if a:
+        await message.channel.send(file=discord.File("yawn.png"), delete_after=5)
+    elif b:
+        await message.channel.send(file=discord.File("haha.png"), delete_after=5)
+    elif c or d:
+        await message.channel.send(file=discord.File("wth.png"), delete_after=5)
+    elif e:
+        await message.channel.send(file=discord.File("sad.png"), delete_after=5)
+    await bot.process_commands(message)
 
 
 @bot.command(name="z", description=me)
