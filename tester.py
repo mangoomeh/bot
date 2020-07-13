@@ -29,6 +29,8 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    if message.author == bot.user:
+        return
     mm = message.content.lower()
 
     def emote(*args):
@@ -37,6 +39,53 @@ async def on_message(message):
             boo = arg in mm
             final_boo = boo or final_boo
         return final_boo
+
+    if emote("mangobot", str(bot.user.id)):
+        greetings = [
+            f"Hi {message.author.mention}, I'm mangoBot!",
+            f"Hello {message.author.mention}, I love mango~",
+            f"{message.author.mention} at your service.",
+            f"Good day {message.author.mention}~",
+            f"{message.author.mention} Nice to meet you!",
+            f"{message.author.mention} How are you doing?",
+            f"{message.author.mention} What's up?",
+            f"{message.author.mention} Do you know that you can access my list of commands using !help ?",
+            f"Zzz...(what?) oh sorry {message.author.mention} I was just snoozing a lil.",
+            f"{message.author.mention} why are you talking to a bot? Haha, just kidding.",
+            f"{message.author.mention} Sorry what did you say again?",
+            f"{message.author.mention} Hi there!",
+            f"{message.author.mention} Heeeeeeyyyyyy~",
+            f"{message.author.mention} Whatcha doin'?",
+            f"Hi {str(message.author)[:-5]}",
+            f"{str(message.author)[:-5]} is talking to mangoBot~",
+            f"mangoBot wants to talk to {str(message.author)[:-5]}",
+            f"{str(message.author)[:-5]} wanna test how knowledgeable you are? Try using !quiz !",
+            f"{str(message.author)[:-5]}, get a quote from me by using !quote :)",
+            f"{str(message.author)[:-5]}, do you you can check time using !time ?"
+        ]
+        response = random.choice(greetings)
+        botmsg1 = await message.channel.send(response)
+
+        def check(m):
+            return m.author == message.author
+
+        try:
+            msg = await bot.wait_for('message', check=check, timeout=5)
+        except asyncio.TimeoutError:
+            botmsg2 = await message.channel.send(f'{message.author.mention} bye~')
+            await botmsg1.delete()
+            await asyncio.sleep(3)
+            await botmsg2.delete()
+
+            return
+        else:
+            import textfaces
+            response = random.choice(textfaces.textfaces)
+            botmsg2 = await message.channel.send(response)
+            await asyncio.sleep(5)
+            await botmsg1.delete()
+            await botmsg2.delete()
+            await msg.delete()
 
     if emote("yawn"):
         await message.channel.send(file=discord.File("yawn.png"), delete_after=5)
@@ -72,7 +121,6 @@ async def on_message(message):
 @bot.command(name="z", description=me)
 @commands.check(owner)
 async def z(ctx):
-    await ctx.send(file=discord.File("yawn.png"))
     await ctx.message.delete()
     helptext = "```"
     helptext += "{0:8} | {1}\n".format("Commands", "Function")
@@ -101,7 +149,6 @@ async def overclear(ctx, a: int):
         if i <= limit:
             await x.delete()
         else:
-            print("Messages deleted:", i - 1)
             break
         i += 1
 
@@ -146,7 +193,6 @@ async def mangoclear(ctx, a: int):
         if i <= limit:
             await x.delete()
         else:
-            print("Messages deleted:", i - 1)
             break
         i += 1
     botmsg = await ctx.send(f"{limit} message(s) deleted.")
