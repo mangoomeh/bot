@@ -31,25 +31,43 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    a = "yawn" in message.content.lower()
-    b = "haha" in message.content.lower()
-    c = "wth" in message.content.lower()
-    d = "???" in message.content.lower()
-    e = "sad" in message.content.lower()
-    f = "omg" in message.content.lower()
-    g = "sleep" in message.content.lower()
-    if a:
+    mm = message.content.lower()
+
+    def emote(*args):
+        final_boo = False
+        for arg in args:
+            boo = arg in mm
+            final_boo = boo or final_boo
+        return final_boo
+
+    if emote("yawn"):
         await message.channel.send(file=discord.File("yawn.png"), delete_after=5)
-    elif b:
+    if emote("haha", "lol"):
         await message.channel.send(file=discord.File("haha.png"), delete_after=5)
-    elif c or d:
+    if emote("wth", "???", "huh"):
         await message.channel.send(file=discord.File("wth.png"), delete_after=5)
-    elif e:
+    if emote("t_t", "sad", "cries"):
         await message.channel.send(file=discord.File("sad.png"), delete_after=5)
-    elif f:
+    if emote("omg"):
         await message.channel.send(file=discord.File("omg.png"), delete_after=5)
-    elif g:
+    if emote("sleep", "sian", "tired", "bored"):
         await message.channel.send(file=discord.File("sleep.png"), delete_after=5)
+    if emote("yay", "nice"):
+        await message.channel.send(file=discord.File("nice.png"), delete_after=5)
+    if emote("bye", "gtg", "ttyl"):
+        await message.channel.send(file=discord.File("bye.png"), delete_after=5)
+    if emote("eat", "makan"):
+        await message.channel.send(file=discord.File("eat.png"), delete_after=5)
+    if emote("pig"):
+        await message.channel.send(file=discord.File("pig.png"), delete_after=5)
+    if emote("yeah", "ok", "noted"):
+        await message.channel.send(file=discord.File("yeah.png"), delete_after=5)
+    elif emote("no"):
+        await message.channel.send(file=discord.File("no.png"), delete_after=5)
+    if emote("heng", "phew"):
+        await message.channel.send(file=discord.File("phew.png"), delete_after=5)
+    if emote("oh", "idea"):
+        await message.channel.send(file=discord.File("oh.png"), delete_after=5)
     await bot.process_commands(message)
 
 
