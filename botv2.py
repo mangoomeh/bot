@@ -36,6 +36,7 @@ async def on_message(message):
     c = "wth" in message.content.lower()
     d = "???" in message.content.lower()
     e = "sad" in message.content.lower()
+    f = "omg" in message.content.lower()
     if a:
         await message.channel.send(file=discord.File("yawn.png"), delete_after=5)
     elif b:
@@ -44,6 +45,8 @@ async def on_message(message):
         await message.channel.send(file=discord.File("wth.png"), delete_after=5)
     elif e:
         await message.channel.send(file=discord.File("sad.png"), delete_after=5)
+    elif f:
+        await message.channel.send(file=discord.File("omg.png"), delete_after=5)
     await bot.process_commands(message)
 
 
