@@ -300,7 +300,6 @@ async def youtube(ctx):
     link_array = []
     for i in range(max):
         title = search_results['search_result'][i]['title']
-        title = ast.literal_eval("b'{}'".format(title)).decode('utf-8')
         title = str(title)
         duration = search_results['search_result'][i]['duration']
         link = search_results['search_result'][i]['link']
