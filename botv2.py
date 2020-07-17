@@ -9,6 +9,8 @@ import asyncio
 import requests
 from youtubesearchpython import searchYoutube
 import ast
+from ftfy import fix_text
+
 
 vname = "mangoBot v3.2"
 
@@ -88,31 +90,31 @@ async def on_message(message):
             await msg.delete()
 
     if emote("yawn"):
-        await message.channel.send(file=discord.File("yawn.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/yawn.png"), delete_after=5)
     if emote("haha", "lol"):
-        await message.channel.send(file=discord.File("haha.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/haha.png"), delete_after=5)
     if emote("wth", "???", "huh"):
-        await message.channel.send(file=discord.File("wth.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/wth.png"), delete_after=5)
     if emote("t_t", "sad", "cries"):
-        await message.channel.send(file=discord.File("sad.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/sad.png"), delete_after=5)
     if emote("omg"):
-        await message.channel.send(file=discord.File("omg.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/omg.png"), delete_after=5)
     if emote("sleep", "sian", "tired", "bored"):
-        await message.channel.send(file=discord.File("sleep.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/sleep.png"), delete_after=5)
     if emote("yay", "nice"):
-        await message.channel.send(file=discord.File("nice.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/nice.png"), delete_after=5)
     if emote("bye", "gtg", "ttyl"):
-        await message.channel.send(file=discord.File("bye.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/bye.png"), delete_after=5)
     if emote("eat", "makan"):
-        await message.channel.send(file=discord.File("eat.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/eat.png"), delete_after=5)
     if emote("pig"):
-        await message.channel.send(file=discord.File("pig.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/pig.png"), delete_after=5)
     if emote("yeah", "ok", "noted", "good"):
-        await message.channel.send(file=discord.File("yeah.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/yeah.png"), delete_after=5)
     if emote("heng", "phew"):
-        await message.channel.send(file=discord.File("phew.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/phew.png"), delete_after=5)
     if emote("oh", "idea"):
-        await message.channel.send(file=discord.File("oh.png"), delete_after=5)
+        await message.channel.send(file=discord.File("images/oh.png"), delete_after=5)
     await bot.process_commands(message)
 
 
@@ -280,7 +282,7 @@ async def youtube(ctx):
 
     botmsg = await ctx.send("Your search?")
     try:
-        msg = (await bot.wait_for('message', check=check, timeout=10.0))
+        msg = (await bot.wait_for('message', check=check, timeout=25))
     except asyncio.TimeoutError:
         botmsg2 = (await ctx.send("Timeout. Try again at !u."))
         await asyncio.sleep(5)
@@ -297,8 +299,12 @@ async def youtube(ctx):
     await msg.delete()
     botmsg = ""
     link_array = []
+    print(search)
+    print(search_results)
     for i in range(max):
         title = search_results['search_result'][i]['title']
+        title = ast.literal_eval("b'{}'".format(title)).decode('utf-8')
+        print(title)
         duration = search_results['search_result'][i]['duration']
         link = search_results['search_result'][i]['link']
         botmsg += f"({i + 1}) {title} [{duration}]\n"
@@ -306,7 +312,7 @@ async def youtube(ctx):
 
     botmsg1 = await ctx.send(botmsg)
     try:
-        msg = await bot.wait_for('message', check=check, timeout=15)
+        msg = await bot.wait_for('message', check=check, timeout=25)
         await botmsg1.delete()
         await msg.delete()
         index = int(msg.content)
@@ -865,4 +871,8 @@ async def game(ctx):
         await score.delete()
 # ==================================================================================================================== #
 
-bot.run(os.environ['token'])
+#bot.run(os.environ['token'])
+
+import tester
+
+bot.run(tester.token)

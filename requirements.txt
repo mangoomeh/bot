@@ -6,3 +6,4 @@ requests
 datetime
 pytz
 youtube-search-python
+ftfy
