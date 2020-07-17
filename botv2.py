@@ -9,6 +9,7 @@ import asyncio
 import requests
 import ast
 from youtubesearchpython import searchYoutube
+import tester
 
 
 vname = "mangoBot v3.2"
@@ -22,6 +23,10 @@ bot.remove_command('help')
 def owner(m):
     return m.author.id == 311159834823360512
 
+def luci(m):
+    a = m.author.id == 372024452042457108
+    b = m.author.id == 311159834823360512
+    return a or b
 
 @bot.event
 async def on_ready():
@@ -104,17 +109,32 @@ async def on_message(message):
         await message.channel.send(file=discord.File("images/nice.png"), delete_after=5)
     if emote("bye", "gtg", "ttyl"):
         await message.channel.send(file=discord.File("images/bye.png"), delete_after=5)
-    if emote("eat", "makan"):
+    if emote("makan"):
         await message.channel.send(file=discord.File("images/eat.png"), delete_after=5)
     if emote("pig"):
         await message.channel.send(file=discord.File("images/pig.png"), delete_after=5)
-    if emote("yeah", "ok", "noted", "good"):
+    if emote("yeah", "okay", "noted", "good", "kk"):
         await message.channel.send(file=discord.File("images/yeah.png"), delete_after=5)
     if emote("heng", "phew"):
         await message.channel.send(file=discord.File("images/phew.png"), delete_after=5)
     if emote("oh", "idea"):
         await message.channel.send(file=discord.File("images/oh.png"), delete_after=5)
     await bot.process_commands(message)
+
+
+@bot.command(name='test', description=me)
+@commands.check(luci)
+async def test(ctx):
+    await ctx.message.delete()
+    botmsg = await ctx.send("Enter code.")
+    while True:
+        msg = await bot.wait_for('message', check=luci)
+        await botmsg.delete()
+        if msg.content.lower() == "exit":
+            break
+        x = eval(msg.content)
+        await msg.delete()
+        await ctx.send(x, delete_after=10)
 
 
 @bot.command(name="z", description=me)
@@ -163,22 +183,15 @@ async def test(ctx):
 
 @bot.command(name='zuser', description=me)
 @commands.check(owner)
-async def getuser(ctx, a: int):
-    await ctx.message.delete()
-    if a > 10:
-        botmsg = await ctx.send("Value too large.")
-        await asyncio.sleep(3)
-        await botmsg.delete()
-        return
-    i = 1
-    async for msg in ctx.channel.history(limit=10):
-        if i == a:
-            botmsg = await ctx.send(f"{msg.author}: {msg.author.id}")
-            await asyncio.sleep(3)
-            await botmsg.delete()
-            return
-        else:
-            i += 1
+async def getuser(ctx):
+    x = ctx.channel.members
+    botmsg = "Players in the Channel:\n"
+    for i in x:
+        a = i.name
+        b = i.id
+        c = f"{a}: {b}\n"
+        botmsg += c
+    await ctx.send(botmsg, delete_after=15)
 
 
 @bot.command(name='zclear', description=me)
@@ -867,7 +880,4 @@ async def game(ctx):
 # ==================================================================================================================== #
 
 bot.run(os.environ['token'])
-
-#import tester
-
 #bot.run(tester.token)
