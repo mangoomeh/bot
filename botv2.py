@@ -8,8 +8,6 @@ from pytz import timezone
 import asyncio
 import requests
 from youtubesearchpython import searchYoutube
-import ast
-from ftfy import fix_text
 
 
 vname = "mangoBot v3.2"
@@ -303,8 +301,7 @@ async def youtube(ctx):
     print(search_results)
     for i in range(max):
         title = search_results['search_result'][i]['title']
-        title = ast.literal_eval("b'{}'".format(title)).decode('utf-8')
-        print(title)
+        #title = ast.literal_eval("b'{}'".format(title)).decode('utf-8')
         duration = search_results['search_result'][i]['duration']
         link = search_results['search_result'][i]['link']
         botmsg += f"({i + 1}) {title} [{duration}]\n"
