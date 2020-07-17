@@ -320,10 +320,9 @@ async def youtube(ctx):
         await botmsg1.delete()
         return
     except ValueError:
-        botmsg2 = await ctx.send('Invalid selection.')
+        botmsg2 = await ctx.send('Invalid selection.', delete_after=5)
         await asyncio.sleep(5)
         await botmsg1.delete()
-        await botmsg2.delete()
     else:
         botmsg2 = await ctx.send(link_array[index - 1])
 
@@ -867,8 +866,8 @@ async def game(ctx):
         await score.delete()
 # ==================================================================================================================== #
 
-#bot.run(os.environ['token'])
+bot.run(os.environ['token'])
 
-import tester
+#import tester
 
-bot.run(tester.token)
+#bot.run(tester.token)
