@@ -9,8 +9,10 @@ import asyncio
 import requests
 import ast
 from youtubesearchpython import searchYoutube
+import logging
 import tester
 
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 vname = "mangoBot v3.2"
 
@@ -23,10 +25,12 @@ bot.remove_command('help')
 def owner(m):
     return m.author.id == 311159834823360512
 
+
 def luci(m):
     a = m.author.id == 372024452042457108
     b = m.author.id == 311159834823360512
     return a or b
+
 
 @bot.event
 async def on_ready():
@@ -117,9 +121,45 @@ async def on_message(message):
         await message.channel.send(file=discord.File("images/yeah.png"), delete_after=5)
     if emote("heng", "phew"):
         await message.channel.send(file=discord.File("images/phew.png"), delete_after=5)
-    if emote("oh", "idea"):
+    if emote("idea"):
         await message.channel.send(file=discord.File("images/oh.png"), delete_after=5)
     await bot.process_commands(message)
+
+
+x = True
+
+
+@bot.command(name='mango', description="talk to mango")
+async def mango(ctx):
+    await ctx.message.delete()
+    global x
+    if x:
+        x = False
+
+        def check(m):
+            return m.author == ctx.author
+
+        botmsg1 = await ctx.send(f"Hello {ctx.author.mention}")
+        while True:
+            try:
+                msg1 = await bot.wait_for('message', check=check, timeout=30)
+                if msg1.content.lower() == "exit":
+                    x = True
+                    return
+            except asyncio.TimeoutError:
+                botmsg2 = await ctx.send("Alright, ttyl.")
+                x = True
+                return
+            else:
+                def check(m):
+                    return m.author.id == 311159834823360512
+                user = bot.get_user(311159834823360512)
+                botmsg2 = await user.send(msg1.content)
+                mymsg = await bot.wait_for('message', check=check)
+                if mymsg.content.lower() == "exit":
+                    x = True
+                    return
+                botmsg3 = await ctx.send(mymsg.content)
 
 
 @bot.command(name='test', description=me)
@@ -877,6 +917,8 @@ async def game(ctx):
     await botmsg1.delete()
     for score in score_msg_array:
         await score.delete()
+
+
 # ==================================================================================================================== #
 
 bot.run(os.environ['token'])
