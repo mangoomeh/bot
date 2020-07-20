@@ -1,7 +1,6 @@
 # botv2.py
 import random
 import os
-import discord
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -26,155 +25,15 @@ def owner(m):
     return m.author.id == 311159834823360512
 
 
-def luci(m):
-    a = m.author.id == 372024452042457108
-    b = m.author.id == 311159834823360512
-    return a or b
-
-
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-    mm = message.content.lower()
-
-    def emote(*args):
-        final_boo = False
-        for arg in args:
-            boo = arg in mm
-            final_boo = boo or final_boo
-        return final_boo
-
-    if emote("mangobot", str(bot.user.id)):
-        greetings = [
-            f"Hi {message.author.mention}, I'm mangoBot!",
-            f"Hello {message.author.mention}, I love mango~",
-            f"{message.author.mention} at your service.",
-            f"Good day {message.author.mention}~",
-            f"{message.author.mention} Nice to meet you!",
-            f"{message.author.mention} How are you doing?",
-            f"{message.author.mention} What's up?",
-            f"{message.author.mention} Do you know that you can access my list of commands using !help ?",
-            f"Zzz...(what?) oh sorry {message.author.mention} I was just snoozing a lil.",
-            f"{message.author.mention} why are you talking to a bot? Haha, just kidding.",
-            f"{message.author.mention} Sorry what did you say again?",
-            f"{message.author.mention} Hi there!",
-            f"{message.author.mention} Heeeeeeyyyyyy~",
-            f"{message.author.mention} Whatcha doin'?",
-            f"Hi {str(message.author)[:-5]}",
-            f"{str(message.author)[:-5]} is talking to mangoBot~",
-            f"mangoBot wants to talk to {str(message.author)[:-5]}",
-            f"{str(message.author)[:-5]} wanna test how knowledgeable you are? Try using !quiz !",
-            f"{str(message.author)[:-5]}, get a quote from me by using !quote :)",
-            f"{str(message.author)[:-5]}, do you you can check time using !time ?"
-        ]
-        response = random.choice(greetings)
-        botmsg1 = await message.channel.send(response)
-
-        def check(m):
-            return m.author == message.author
-
-        try:
-            msg = await bot.wait_for('message', check=check, timeout=5)
-        except asyncio.TimeoutError:
-            botmsg2 = await message.channel.send(f'{message.author.mention} bye~')
-            await botmsg1.delete()
-            await asyncio.sleep(3)
-            await botmsg2.delete()
-
-            return
-        else:
-            import textfaces
-            response = random.choice(textfaces.textfaces)
-            botmsg2 = await message.channel.send(response)
-            await asyncio.sleep(5)
-            await botmsg1.delete()
-            await botmsg2.delete()
-            await msg.delete()
-
-    if emote("yawn"):
-        await message.channel.send(file=discord.File("images/yawn.png"), delete_after=5)
-    if emote("haha", "lol"):
-        await message.channel.send(file=discord.File("images/haha.png"), delete_after=5)
-    if emote("wth", "???", "huh"):
-        await message.channel.send(file=discord.File("images/wth.png"), delete_after=5)
-    if emote("t_t", "sad", "cries"):
-        await message.channel.send(file=discord.File("images/sad.png"), delete_after=5)
-    if emote("omg"):
-        await message.channel.send(file=discord.File("images/omg.png"), delete_after=5)
-    if emote("sleep", "sian", "tired", "bored"):
-        await message.channel.send(file=discord.File("images/sleep.png"), delete_after=5)
-    if emote("yay", "nice"):
-        await message.channel.send(file=discord.File("images/nice.png"), delete_after=5)
-    if emote("bye", "gtg", "ttyl"):
-        await message.channel.send(file=discord.File("images/bye.png"), delete_after=5)
-    if emote("makan"):
-        await message.channel.send(file=discord.File("images/eat.png"), delete_after=5)
-    if emote("pig"):
-        await message.channel.send(file=discord.File("images/pig.png"), delete_after=5)
-    if emote("yeah", "okay", "noted", "good", "kk"):
-        await message.channel.send(file=discord.File("images/yeah.png"), delete_after=5)
-    if emote("heng", "phew"):
-        await message.channel.send(file=discord.File("images/phew.png"), delete_after=5)
-    if emote("idea"):
-        await message.channel.send(file=discord.File("images/oh.png"), delete_after=5)
-    await bot.process_commands(message)
-
-
-x = True
-
-
-@bot.command(name='mango', description="talk to mango")
-async def mango(ctx):
-    await ctx.message.delete()
-    global x
-    if x:
-        x = False
-
-        def check(m):
-            return m.author == ctx.author
-
-        botmsg1 = await ctx.send(f"Hello {ctx.author.mention}")
-        while True:
-            try:
-                msg1 = await bot.wait_for('message', check=check, timeout=30)
-                if msg1.content.lower() == "exit":
-                    x = True
-                    return
-            except asyncio.TimeoutError:
-                botmsg2 = await ctx.send("Alright, ttyl.")
-                x = True
-                return
-            else:
-                def check(m):
-                    return m.author.id == 311159834823360512
-                user = bot.get_user(311159834823360512)
-                botmsg2 = await user.send(msg1.content)
-                mymsg = await bot.wait_for('message', check=check)
-                if mymsg.content.lower() == "exit":
-                    x = True
-                    return
-                botmsg3 = await ctx.send(mymsg.content)
-
-
 @bot.command(name='test', description=me)
-@commands.check(luci)
+@commands.check(owner)
 async def test(ctx):
-    await ctx.message.delete()
-    botmsg = await ctx.send("Enter code.")
-    while True:
-        msg = await bot.wait_for('message', check=luci)
-        await botmsg.delete()
-        if msg.content.lower() == "exit":
-            break
-        x = eval(msg.content)
-        await msg.delete()
-        await ctx.send(x, delete_after=10)
+    pass
 
 
 @bot.command(name="z", description=me)
@@ -193,11 +52,21 @@ async def z(ctx):
     await botmsg.delete()
 
 
-@bot.command(name='C', description=me)
+@bot.command(name='zc', description=me)
 @commands.check(owner)
-async def overclear(ctx, a: int):
+async def overclear(ctx):
     await ctx.message.delete()
-    messages = ctx.channel.history().filter(lambda m: m.author.id == int(a))
+    members = ctx.channel.members
+    botmsg = "Members in the Channel:\n"
+    for i in range(len(members)):
+        line = f"({i+1}) {members[i].name}: {members[i].id}\n"
+        botmsg += line
+    botmsg = await ctx.send(botmsg)
+    msg = await bot.wait_for('message', check=owner)
+    index = int(msg.content) - 1
+    await botmsg.delete()
+    await msg.delete()
+    messages = ctx.channel.history().filter(lambda m: m.author.id == members[index].id)
     botmsg = await ctx.send('Integer?')
     msg = await bot.wait_for('message', check=owner)
     limit = int(msg.content)
@@ -210,13 +79,7 @@ async def overclear(ctx, a: int):
         else:
             break
         i += 1
-
-
-@bot.command(name='ztest', description=me)
-@commands.check(owner)
-async def test(ctx):
-    await ctx.message.delete()
-    botmsg = await ctx.send("mangoBot is alive and well.")
+    botmsg = await ctx.send(f"{limit} message(s) deleted.")
     await asyncio.sleep(3)
     await botmsg.delete()
 
@@ -225,7 +88,7 @@ async def test(ctx):
 @commands.check(owner)
 async def getuser(ctx):
     x = ctx.channel.members
-    botmsg = "Players in the Channel:\n"
+    botmsg = "Members in the Channel:\n"
     for i in x:
         a = i.name
         b = i.id
@@ -373,11 +236,11 @@ async def youtube(ctx):
         await botmsg1.delete()
         return
     except ValueError:
-        botmsg2 = await ctx.send('Invalid selection.', delete_after=5)
+        await ctx.send('Invalid selection.', delete_after=5)
         await asyncio.sleep(5)
         await botmsg1.delete()
     else:
-        botmsg2 = await ctx.send(link_array[index - 1])
+        await ctx.send(link_array[index - 1])
 
 
 @bot.command(name='c', description='Delete message')
@@ -921,5 +784,5 @@ async def game(ctx):
 
 # ==================================================================================================================== #
 
-bot.run(os.environ['token'])
-#bot.run(tester.token)
+#bot.run(os.environ['token'])
+bot.run(tester.token)
