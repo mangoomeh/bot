@@ -13,7 +13,7 @@ import tester
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
-vname = "mangoBot v3.2"
+vname = "mangoBot v3.3"
 
 # ==================================================================================================================== #
 me = "Only usable by mangoomeh"
@@ -25,14 +25,42 @@ def owner(m):
     return m.author.id == 311159834823360512
 
 
+def dev(m):
+    a = 334645578111647746
+    b = 311159834823360512
+    c = 372024452042457108
+    return m.author.id == a or m.author.id == b or m.author.id == c
+
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    elif "mangobot" in message.content.lower():
+        botmsg = await message.channel.send(f"{message.author.mention} Hey, you called?")
+
+        def check(m):
+            return m.author == message.author
+
+        msg = await bot.wait_for('message', check=check)
+        await botmsg.delete()
+        if "no" in msg.content.lower():
+            await message.channel.send(f"{message.author.mention} okay :)", delete_after=3)
+        elif "yes" in msg.content.lower():
+            await message.channel.send(f"{message.author.mention} I'm sorry, I can't hold a conversation :( "
+                                       f"Use my commands instead! Use !help for more information.",
+                                       delete_after=5)
+    await bot.process_commands(message)
+
+
 @bot.command(name='test', description=me)
 @commands.check(owner)
-async def test(ctx):
+async def test():
     pass
 
 
@@ -53,35 +81,53 @@ async def z(ctx):
 
 
 @bot.command(name='zc', description=me)
-@commands.check(owner)
+@commands.check(dev)
 async def overclear(ctx):
+    def check(m):
+        return m.author == ctx.author
     await ctx.message.delete()
     members = ctx.channel.members
-    botmsg = "Members in the Channel:\n"
+    botmsg = "Whose messages are we deleting?\n\n"
     for i in range(len(members)):
-        line = f"({i+1}) {members[i].name}: {members[i].id}\n"
+        line = f"({i + 1}) {members[i].name}: {members[i].id}\n"
         botmsg += line
     botmsg = await ctx.send(botmsg)
-    msg = await bot.wait_for('message', check=owner)
-    index = int(msg.content) - 1
+    msg = await bot.wait_for('message', check=check)
     await botmsg.delete()
     await msg.delete()
-    messages = ctx.channel.history().filter(lambda m: m.author.id == members[index].id)
-    botmsg = await ctx.send('Integer?')
-    msg = await bot.wait_for('message', check=owner)
-    limit = int(msg.content)
-    await botmsg.delete()
-    await msg.delete()
-    i = 1
-    async for x in messages:
-        if i <= limit:
-            await x.delete()
-        else:
-            break
-        i += 1
-    botmsg = await ctx.send(f"{limit} message(s) deleted.")
-    await asyncio.sleep(3)
-    await botmsg.delete()
+    if msg.content.lower() == "cancel":
+        return
+    elif msg.content.lower() == "all":
+        messages = ctx.channel.history()
+        botmsg = await ctx.send('How many messages?')
+        msg = await bot.wait_for('message', check=check)
+        limit = int(msg.content)
+        await botmsg.delete()
+        await msg.delete()
+        i = 1
+        async for x in messages:
+            if i <= limit:
+                await x.delete()
+            else:
+                break
+            i += 1
+        await ctx.send(f"{limit} message(s) deleted.", delete_after=3)
+    else:
+        index = int(msg.content) - 1
+        messages = ctx.channel.history().filter(lambda m: m.author.id == members[index].id)
+        botmsg = await ctx.send('How many messages?')
+        msg = await bot.wait_for('message', check=check)
+        limit = int(msg.content)
+        await botmsg.delete()
+        await msg.delete()
+        i = 1
+        async for x in messages:
+            if i <= limit:
+                await x.delete()
+            else:
+                break
+            i += 1
+        await ctx.send(f"{limit} message(s) deleted.", delete_after=3)
 
 
 @bot.command(name='zuser', description=me)
@@ -95,6 +141,7 @@ async def getuser(ctx):
         c = f"{a}: {b}\n"
         botmsg += c
     await ctx.send(botmsg, delete_after=15)
+    await ctx.message.delete()
 
 
 @bot.command(name='zclear', description=me)
@@ -190,7 +237,7 @@ async def math(ctx):
 
 @bot.command(name='u', description='Youtube')
 async def youtube(ctx):
-    max = 6
+    max_results = 6
 
     def check(m):
         return m.author == ctx.author
@@ -207,14 +254,14 @@ async def youtube(ctx):
         return
 
     query = msg.content
-    search = (searchYoutube(query, offset=1, mode="json", max_results=max)).result()
+    search = (searchYoutube(query, offset=1, mode="json", max_results=max_results)).result()
     search_results = ast.literal_eval(search)
     await ctx.message.delete()
     await botmsg.delete()
     await msg.delete()
     botmsg = ""
     link_array = []
-    for i in range(max):
+    for i in range(max_results):
         title = search_results['search_result'][i]['title']
         title = str(title)
         duration = search_results['search_result'][i]['duration']
@@ -415,7 +462,7 @@ async def quote(ctx):
 
 
 # QUIZ
-@bot.command(name='quiz', description='Trivia Quiz')
+@bot.command(name='t', description='Trivia Quiz')
 async def quiz(ctx):
     import quiz
     questions = quiz.trivia_quiz_set
@@ -563,7 +610,7 @@ async def data(ctx):
         await asyncio.sleep(10)
         await botmsg2.delete()
     else:
-        botmsg2 = await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan-info.")
+        botmsg2 = await ctx.send(ctx.author.mention + "\nInvalid input, please try again from !clan.")
         await asyncio.sleep(3)
         await ctx.message.delete()
         await botmsg1.delete()
@@ -638,10 +685,10 @@ async def game(ctx):
 
     # Generate Player Classes
     class Player:
-        def __init__(self, score, name, id):
+        def __init__(self, score, name, userid):
             self.score = score
             self.name = name
-            self.id = id
+            self.id = userid
 
         def win(self):
             self.score += 1
@@ -784,5 +831,5 @@ async def game(ctx):
 
 # ==================================================================================================================== #
 
-#bot.run(os.environ['token'])
+# bot.run(os.environ['token'])
 bot.run(tester.token)
