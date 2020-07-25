@@ -50,23 +50,32 @@ async def on_message(message):
         if i in mm.lower():
             await message.delete()
             await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
+            return
 
     if mm == "HAHA":
         await message.channel.send(file=discord.File('images/haha.png'), delete_after=3)
+        return
     elif mm.lower() == "sad":
         await message.channel.send(file=discord.File('images/sad.png'), delete_after=3)
+        return
     elif mm.lower() == "pig":
         await message.channel.send(file=discord.File('images/pig.png'), delete_after=3)
+        return
     elif mm == "HUH":
         await message.channel.send(file=discord.File('images/wth.png'), delete_after=3)
+        return
     elif mm.lower() == "hear ye":
         await message.channel.send(file=discord.File('images/hearye.png'), delete_after=3)
+        return
     elif mm.lower() == "omg":
         await message.channel.send(file=discord.File('images/omg.png'), delete_after=3)
+        return
     elif mm.lower() == "sleep":
         await message.channel.send(file=discord.File('images/sleep.png'), delete_after=3)
+        return
     elif mm.lower() == "phew":
         await message.channel.send(file=discord.File('images/phew.png'), delete_after=3)
+        return
     else:
         await bot.process_commands(message)
 

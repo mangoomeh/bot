@@ -135,7 +135,7 @@ profanities = ['2 girls 1 cup', '2g1c', '4r5e', '5h1t', '5hit', 'a$$', 'a$$hole'
                'niggle', 'niglet', 'nig-nog', 'nimphomania', 'nimrod', 'ninny', 'ninnyhammer', 'nipple', 'nipples',
                'nob', 'nob jokey', 'nobhead', 'nobjocky', 'nobjokey', 'nonce', 'nsfw images', 'nude', 'nudity',
                'numbnuts', 'nut butter', 'nut butter', 'nut sack', 'nutsack', 'nutter', 'nympho', 'nymphomania',
-               'octopussy', 'old bag', 'omg', 'omorashi', 'one cup two girls', 'one guy one jar', 'opiate', 'opium',
+               'octopussy', 'old bag', 'omorashi', 'one cup two girls', 'one guy one jar', 'opiate', 'opium',
                'orally', 'organ', 'orgasim', 'orgasims', 'orgasm', 'orgasmic', 'orgasms', 'orgies', 'orgy', 'ovary',
                'ovum', 'ovums', 'p.u.s.s.y.', 'p0rn', 'paedophile', 'paki', 'panooch', 'pansy', 'pantie', 'panties',
                'panty', 'pawn', 'pcp', 'pecker', 'peckerhead', 'pedo', 'pedobear', 'pedophile', 'pedophilia',
