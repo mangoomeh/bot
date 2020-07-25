@@ -97,9 +97,7 @@ async def z(ctx):
         if x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    botmsg = await ctx.send(helptext)
-    await asyncio.sleep(3)
-    await botmsg.delete()
+    botmsg = await ctx.send(helptext, delete_after=3)
 
 
 @bot.command(name='zc', description="developers only")
@@ -155,6 +153,7 @@ async def overclear(ctx):
 @bot.command(name='zuser', description=me)
 @commands.check(owner)
 async def getuser(ctx):
+    await ctx.message.delete()
     x = ctx.channel.members
     botmsg = "Members in the Channel:\n"
     for i in x:
@@ -163,7 +162,6 @@ async def getuser(ctx):
         c = f"{a}: {b}\n"
         botmsg += c
     await ctx.send(botmsg, delete_after=15)
-    await ctx.message.delete()
 
 
 @bot.command(name='zclear', description=me)
@@ -186,6 +184,7 @@ async def mangoclear(ctx, a: int):
 
 @bot.command(name="help", description="Shows this message")
 async def h(ctx):
+    await ctx.message.delete()
     helptext = "```"
     helptext += "{0:8} | {1}\n".format("Commands", "Function")
     for command in bot.commands:
@@ -193,33 +192,27 @@ async def h(ctx):
         if not x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    botmsg = await ctx.send(helptext)
-    await ctx.message.delete()
-    await asyncio.sleep(10)
-    await botmsg.delete()
+    botmsg = await ctx.send(helptext, delete_after=10)
 
 
 @bot.command(name='ver', description='Shows current version')
 async def version(ctx):
-    botmsg = await ctx.send("Current Build: " + vname)
-    await asyncio.sleep(5)
-    await botmsg.delete()
     await ctx.message.delete()
+    await ctx.send("Current Build: " + vname, delete_after=5)
 
 
 @bot.command(name='time', description='Date/Time')
 async def time(ctx):
+    await ctx.message.delete()
     now = datetime.now(timezone('Asia/Singapore'))
     response = now.strftime("%H:%M\n%d %B %Y")
-    botmsg = await ctx.send(ctx.author.mention + "\n" + response)
-    await asyncio.sleep(5)
-    await botmsg.delete()
-    await ctx.message.delete()
+    botmsg = await ctx.send(ctx.author.mention + "\n" + response, delete_after=10)
 
 
 @bot.command(name='m', description='Math Quiz')
 async def math(ctx):
     await ctx.message.delete()
+    await ctx.send("While in a question, type 'exit' to stop the quiz.", delete_after=5)
     while True:
         a = random.randint(1, 99)
         b = random.randint(50, 99)
@@ -259,6 +252,7 @@ async def math(ctx):
 
 @bot.command(name='u', description='Youtube')
 async def youtube(ctx):
+    await ctx.message.delete()
     max_results = 6
 
     def check(m):
@@ -266,11 +260,10 @@ async def youtube(ctx):
 
     botmsg = await ctx.send("Your search?")
     try:
-        msg = (await bot.wait_for('message', check=check, timeout=25))
+        msg = (await bot.wait_for('message', check=check, timeout=30))
     except asyncio.TimeoutError:
         botmsg2 = (await ctx.send("Timeout. Try again at !u."))
         await asyncio.sleep(5)
-        await ctx.message.delete()
         await botmsg.delete()
         await botmsg2.delete()
         return
@@ -361,7 +354,7 @@ async def clear(ctx, *args):
                         print("Messages deleted:", i - 2)
                         break
                     i += 1
-                botmsg2 = await ctx.send(str(limit - 1) + " of your messages are deleted.")
+                botmsg2 = await ctx.send(f"{i} of your messages are deleted.")
                 await asyncio.sleep(5)
                 await botmsg1.delete()
                 await botmsg2.delete()
