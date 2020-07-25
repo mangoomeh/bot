@@ -1,6 +1,7 @@
 # botv2.py
 import random
 import os
+import discord
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -10,6 +11,7 @@ import ast
 from youtubesearchpython import searchYoutube
 import logging
 import tester
+import profanities
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
@@ -41,27 +43,39 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-    elif "mangobot" in message.content.lower():
-        botmsg = await message.channel.send(f"{message.author.mention} Hey, you called?")
 
-        def check(m):
-            return m.author == message.author
+    mm = message.content
 
-        msg = await bot.wait_for('message', check=check)
-        await botmsg.delete()
-        if "no" in msg.content.lower():
-            await message.channel.send(f"{message.author.mention} okay :)", delete_after=3)
-        elif "yes" in msg.content.lower():
-            await message.channel.send(f"{message.author.mention} I'm sorry, I can't hold a conversation :( "
-                                       f"Use my commands instead! Use !help for more information.",
-                                       delete_after=5)
-    await bot.process_commands(message)
+    for i in profanities.profanities:
+        if i in mm.lower():
+            await message.delete()
+            await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
+
+    if mm == "HAHA":
+        await message.channel.send(file=discord.File('images/haha.png'), delete_after=3)
+    elif mm.lower() == "sad":
+        await message.channel.send(file=discord.File('images/sad.png'), delete_after=3)
+    elif mm.lower() == "pig":
+        await message.channel.send(file=discord.File('images/pig.png'), delete_after=3)
+    elif mm == "HUH":
+        await message.channel.send(file=discord.File('images/wth.png'), delete_after=3)
+    elif mm.lower() == "hear ye":
+        await message.channel.send(file=discord.File('images/hearye.png'), delete_after=3)
+    elif mm.lower() == "omg":
+        await message.channel.send(file=discord.File('images/omg.png'), delete_after=3)
+    elif mm.lower() == "sleep":
+        await message.channel.send(file=discord.File('images/sleep.png'), delete_after=3)
+    elif mm.lower() == "phew":
+        await message.channel.send(file=discord.File('images/phew.png'), delete_after=3)
+    else:
+        await bot.process_commands(message)
 
 
 @bot.command(name='test', description=me)
 @commands.check(owner)
-async def test():
+async def test(ctx):
     pass
+
 
 
 @bot.command(name="z", description=me)
