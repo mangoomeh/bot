@@ -86,7 +86,6 @@ async def test(ctx):
     pass
 
 
-
 @bot.command(name="z", description=me)
 @commands.check(owner)
 async def z(ctx):
@@ -103,7 +102,7 @@ async def z(ctx):
     await botmsg.delete()
 
 
-@bot.command(name='zc', description=me)
+@bot.command(name='zc', description="developers only")
 @commands.check(dev)
 async def overclear(ctx):
     def check(m):
