@@ -105,7 +105,7 @@ profanities = ['2 girls 1 cup', '2g1c', '4r5e', '5h1t', '5hit', 'a$$', 'a$$hole'
                'heroin', 'herp', 'herpes', 'herpy', 'heshe', 'he-she', 'hircismus', 'hitler', 'hiv', 'ho', 'hoar',
                'hoare', 'hobag', 'hoe', 'hoer', 'holy shit', 'hom0', 'homey', 'homo', 'homodumbshit', 'homoerotic',
                'homoey', 'honkey', 'honky', 'hooch', 'hookah', 'hooker', 'hoor', 'hootch', 'hooter', 'hooters', 'hore',
-               'horniest', 'horny', 'hot carl', 'hot chick', 'hotsex', 'how to kill', 'how to murdep', 'how to murder',
+               'horniest', 'horny', 'hot carl', 'hot chick', 'hotsex',
                'huge fat', 'hump', 'humped', 'humping', 'hun', 'hussy', 'hymen', 'iap', 'iberian slap', 'inbred',
                'incest', 'injun', 'intercourse', 'jack off', 'jackass', 'jackasses', 'jackhole', 'jackoff', 'jack-off',
                'jaggi', 'jagoff', 'jail bait', 'jailbait', 'jap', 'japs', 'jelly donut', 'jerk', 'jerk off', 'jerk0ff',

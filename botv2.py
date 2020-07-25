@@ -15,7 +15,7 @@ import profanities
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
-vname = "mangoBot v3.3"
+vname = "mangoBot v4.0"
 
 # ==================================================================================================================== #
 me = "Only usable by mangoomeh"
@@ -82,7 +82,7 @@ async def on_message(message):
 
 @bot.command(name='test', description=me)
 @commands.check(owner)
-async def test(ctx):
+async def test():
     pass
 
 
@@ -97,7 +97,7 @@ async def z(ctx):
         if x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    botmsg = await ctx.send(helptext, delete_after=3)
+    await ctx.send(helptext, delete_after=3)
 
 
 @bot.command(name='zc', description="developers only")
@@ -192,7 +192,7 @@ async def h(ctx):
         if not x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    botmsg = await ctx.send(helptext, delete_after=10)
+    await ctx.send(helptext, delete_after=10)
 
 
 @bot.command(name='ver', description='Shows current version')
@@ -206,7 +206,7 @@ async def time(ctx):
     await ctx.message.delete()
     now = datetime.now(timezone('Asia/Singapore'))
     response = now.strftime("%H:%M\n%d %B %Y")
-    botmsg = await ctx.send(ctx.author.mention + "\n" + response, delete_after=10)
+    await ctx.send(ctx.author.mention + "\n" + response, delete_after=10)
 
 
 @bot.command(name='m', description='Math Quiz')
@@ -286,16 +286,14 @@ async def youtube(ctx):
 
     botmsg1 = await ctx.send(botmsg)
     try:
-        msg = await bot.wait_for('message', check=check, timeout=25)
+        msg = await bot.wait_for('message', check=check, timeout=30)
         await botmsg1.delete()
         await msg.delete()
         index = int(msg.content)
 
     except asyncio.TimeoutError:
         await botmsg1.delete()
-        botmsg1 = await ctx.send('Timeout.')
-        await asyncio.sleep(4)
-        await botmsg1.delete()
+        await ctx.send('Timeout.', delete_after=5)
         return
     except ValueError:
         await ctx.send('Invalid selection.', delete_after=5)
@@ -337,11 +335,10 @@ async def clear(ctx, *args):
 
             try:
                 msg = (await bot.wait_for('message', check=check, timeout=10.0))
-            except asyncio.TimeoutError:
-                botmsg2 = await ctx.send(ctx.author.mention + "\n" + "Time is up. Delete aborted.")
-                await asyncio.sleep(5)
                 await botmsg1.delete()
-                await botmsg2.delete()
+            except asyncio.TimeoutError:
+                await botmsg1.delete()
+                await ctx.send(ctx.author.mention + "\n" + "Time is up. Delete aborted.", delete_after=5)
                 return
             if msg.content == "Y":
                 await ctx.message.delete()
@@ -354,12 +351,11 @@ async def clear(ctx, *args):
                         print("Messages deleted:", i - 2)
                         break
                     i += 1
-                botmsg2 = await ctx.send(f"{i} of your messages are deleted.")
-                await asyncio.sleep(5)
-                await botmsg1.delete()
-                await botmsg2.delete()
+                await ctx.send(f"{i} of your messages are deleted.", delete_after=5)
+                return
             else:
-                await ctx.send("Invalid command. Delete aborted.")
+                await ctx.send("Invalid command. Delete aborted.", delete_after=5)
+                return
         else:
             await ctx.message.delete()
             messages = ctx.channel.history().filter(lambda m: m.author == ctx.author)
