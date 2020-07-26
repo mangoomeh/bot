@@ -13,7 +13,7 @@ import logging
 import tester
 import profanities
 
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logging.basicConfig(filename='mangobot.log', filemode='w', format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
 
@@ -48,6 +48,7 @@ async def on_message(message):
 
     for i in profanities.profanities:
         if i in mm.lower():
+            logging.info(str(mm))
             await message.delete()
             await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
             return
