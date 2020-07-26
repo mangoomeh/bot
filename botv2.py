@@ -843,5 +843,5 @@ async def game(ctx):
 
 # ==================================================================================================================== #
 
-# bot.run(os.environ['token'])
-bot.run(tester.token)
+bot.run(os.environ['token'])
+# bot.run(tester.token)
