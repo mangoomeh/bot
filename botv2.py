@@ -13,7 +13,7 @@ import logging
 import tester
 import profanities
 
-logging.basicConfig(filename='mangobot.log', filemode='w', format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
 
@@ -272,7 +272,6 @@ async def youtube(ctx):
     query = msg.content
     search = (searchYoutube(query, offset=1, mode="json", max_results=max_results)).result()
     search_results = ast.literal_eval(search)
-    await ctx.message.delete()
     await botmsg.delete()
     await msg.delete()
     botmsg = ""
