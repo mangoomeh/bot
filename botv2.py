@@ -45,9 +45,10 @@ async def on_message(message):
         return
 
     mm = message.content
+    mm_words = mm.lower().split()
 
     for i in profanities.profanities:
-        if i in mm.lower():
+        if i in mm_words:
             logging.info(str(mm))
             await message.delete()
             await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
