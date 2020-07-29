@@ -181,7 +181,7 @@ profanities = ['2 girls 1 cup', '2g1c', '4r5e', '5h1t', '5hit', 'a$$', 'a$$hole'
                'testicle', 'testis', 'threesome', 'throating', 'thrust', 'thug', 'thundercunt', 'tied up',
                'tight white', 'tinkle', 'tit', 'tit wank', 'tit wank', 'titfuck', 'titi', 'tities', 'tits', 'titt',
                'tittie5', 'tittiefucker', 'titties', 'titty', 'tittyfuck', 'tittyfucker', 'tittywank', 'titwank',
-               'toke', 'tongue in a', 'toots', 'topless', 'tosser', 'towelhead', 'tramp', 'tranny', 'transsexual',
+               'tongue in a', 'toots', 'topless', 'tosser', 'towelhead', 'tramp', 'tranny', 'transsexual',
                'trashy', 'tribadism', 'trumped', 'tub girl', 'tubgirl', 'turd', 'tush', 'tushy', 'tw4t', 'twat',
                'twathead', 'twatlips', 'twats', 'twatty', 'twatwaffle', 'twink', 'twinkie', 'two fingers',
                'two fingers with tongue', 'two girls one cup', 'twunt', 'twunter', 'ugly', 'unclefucker', 'undies',
