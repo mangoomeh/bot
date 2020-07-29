@@ -193,7 +193,7 @@ async def h(ctx):
         if not x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    await ctx.send(helptext, delete_after=10)
+    await ctx.send(helptext, delete_after=60)
 
 
 @bot.command(name='ver', description='Shows current version')
