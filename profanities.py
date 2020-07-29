@@ -176,7 +176,7 @@ profanities = ['2 girls 1 cup', '2g1c', '4r5e', '5h1t', '5hit', 'a$$', 'a$$hole'
                'spook', 'spread legs', 'spunk', 'stfu', 'stiffy', 'stoned', 'strap on', 'strapon', 'strappado', 'strip',
                'strip club', 'stroke', 'stupid', 'style doggy', 'suck', 'suckass', 'sucked', 'sucking', 'sucks',
                'suicide girls', 'sultry women', 'sumofabiatch', 'swastika', 'swinger', 't1t', 't1tt1e5', 't1tties',
-               'taff', 'taig', 'tainted love', 'taking the piss', 'tampon', 'tard', 'tart', 'taste my', 'tawdry',
+               'taff', 'taig', 'tainted love', 'taking the piss', 'tampon', 'tard', 'taste my', 'tawdry',
                'tea bagging', 'teabagging', 'teat', 'teets', 'teez', 'teste', 'testee', 'testes', 'testical',
                'testicle', 'testis', 'threesome', 'throating', 'thrust', 'thug', 'thundercunt', 'tied up',
                'tight white', 'tinkle', 'tit', 'tit wank', 'tit wank', 'titfuck', 'titi', 'tities', 'tits', 'titt',
