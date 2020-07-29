@@ -103,7 +103,7 @@ profanities = ['2 girls 1 cup', '2g1c', '4r5e', '5h1t', '5hit', 'a$$', 'a$$hole'
                'g-spot', 'gtfo', 'guido', 'guro', 'h0m0', 'h0mo', 'ham flap', 'ham flap', 'hand job', 'handjob',
                'hard core', 'hard on', 'hardcore', 'hardcoresex', 'he11', 'hebe', 'heeb', 'hell', 'hemp', 'hentai',
                'heroin', 'herp', 'herpes', 'herpy', 'heshe', 'he-she', 'hircismus', 'hitler', 'hiv', 'hoar',
-               'hoare', 'hobag', 'hoe', 'hoer', 'holy shit', 'hom0', 'homey', 'homo', 'homodumbshit', 'homoerotic',
+               'hoare', 'hobag', 'hoer', 'holy shit', 'hom0', 'homey', 'homo', 'homodumbshit', 'homoerotic',
                'homoey', 'honkey', 'honky', 'hooch', 'hookah', 'hooker', 'hoor', 'hootch', 'hooter', 'hooters', 'hore',
                'horniest', 'horny', 'hot carl', 'hot chick', 'hotsex',
                'huge fat', 'hump', 'humped', 'humping', 'hun', 'hussy', 'hymen', 'iap', 'iberian slap', 'inbred',
