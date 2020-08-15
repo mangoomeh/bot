@@ -13,7 +13,7 @@ import logging
 import tester
 import profanities
 
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
 
@@ -45,9 +45,11 @@ async def on_message(message):
         return
 
     mm = message.content
+    mm_words = mm.lower().split()
 
     for i in profanities.profanities:
-        if i in mm.lower():
+        if i in mm_words:
+            logging.info(str(mm))
             await message.delete()
             await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
             return
@@ -192,7 +194,7 @@ async def h(ctx):
         if not x:
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
-    await ctx.send(helptext, delete_after=10)
+    await ctx.send(helptext, delete_after=60)
 
 
 @bot.command(name='ver', description='Shows current version')
@@ -271,7 +273,6 @@ async def youtube(ctx):
     query = msg.content
     search = (searchYoutube(query, offset=1, mode="json", max_results=max_results)).result()
     search_results = ast.literal_eval(search)
-    await ctx.message.delete()
     await botmsg.delete()
     await msg.delete()
     botmsg = ""
@@ -842,5 +843,5 @@ async def game(ctx):
 
 # ==================================================================================================================== #
 
-# bot.run(os.environ['token'])
-bot.run(tester.token)
+bot.run(os.environ['token'])
+# bot.run(tester.token)
