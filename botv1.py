@@ -5,7 +5,7 @@ import random
 import requests
 
 client = discord.Client()
-
+token = ""
 # ================================================ #
 
 
@@ -285,4 +285,4 @@ async def on_message(message):
 
 # ===================================================== #
 
-client.run('NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY')
+client.run(token)
