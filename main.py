@@ -15,34 +15,41 @@ import profanities
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
-#token = os.environ['token']
+token = os.environ['token']
 # ==================================================================================================================== #
+
+# Initialisation
+# Description for commands only usable by me
 me = "Only usable by mangoomeh"
+# Command prefix
 bot = commands.Bot(command_prefix='!')
+# Remove default help command in order to customise it
 bot.remove_command('help')
 
-
+# Function that checks if the message is sent by me
 def owner(m):
     return m.author.id == 311159834823360512
 
-
+# Function that checks if the message is sent by any of the developers
 def dev(m):
     a = 334645578111647746
     b = 311159834823360512
     c = 372024452042457108
     return m.author.id == a or m.author.id == b or m.author.id == c
 
-
+# Bot event that shows that the bot has connected
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-
+# Bot event that processes messages sent in the channel
 @bot.event
 async def on_message(message):
+    # This block stops the code if the message is sent by the bot itself
     if message.author == bot.user:
         return
 
+    # This block of code processes messages content
     mm = message.content
     mm_words = mm.lower().split()
 
@@ -53,6 +60,7 @@ async def on_message(message):
             await message.channel.send(f"{message.author.mention} Please mind your language :)", delete_after=3)
             return
 
+    # This block of code checks for relevant keywords and sends emote.png to the channel
     if mm == "HAHA":
         await message.channel.send(file=discord.File('images/haha.png'), delete_after=3)
         return
@@ -81,12 +89,13 @@ async def on_message(message):
         await bot.process_commands(message)
 
 
+# This block of code is to test functions (pass is used when nothing is to be tested)
 @bot.command(name='test', description=me)
 @commands.check(owner)
-async def test():
+async def test(ctx):
     pass
 
-
+# This is the command that shows all commands only usable by me
 @bot.command(name="z", description=me)
 @commands.check(owner)
 async def z(ctx):
@@ -100,7 +109,7 @@ async def z(ctx):
     helptext += "```"
     await ctx.send(helptext, delete_after=3)
 
-
+# This is the message clearing command available to developers only
 @bot.command(name='zc', description="developers only")
 @commands.check(dev)
 async def overclear(ctx):
@@ -150,7 +159,7 @@ async def overclear(ctx):
             i += 1
         await ctx.send(f"{limit} message(s) deleted.", delete_after=3)
 
-
+# This is the command to list all users in the channel (only usable by me)
 @bot.command(name='zuser', description=me)
 @commands.check(owner)
 async def getuser(ctx):
@@ -164,7 +173,7 @@ async def getuser(ctx):
         botmsg += c
     await ctx.send(botmsg, delete_after=15)
 
-
+# This is the command to clear mangoBot messages (only usable by me)
 @bot.command(name='zclear', description=me)
 @commands.check(owner)
 async def mangoclear(ctx, a: int):
@@ -841,5 +850,4 @@ async def game(ctx):
 
 
 # ==================================================================================================================== #
-token = 'NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY'
 bot.run(token)
