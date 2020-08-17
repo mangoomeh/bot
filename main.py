@@ -8,15 +8,14 @@ from pytz import timezone
 import asyncio
 import requests
 import ast
-from youtubesearchpython import searchYoutube
+#from youtubesearchpython import searchYoutube
 import logging
-import tester
 import profanities
 
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
-
+#token = os.environ['token']
 # ==================================================================================================================== #
 me = "Only usable by mangoomeh"
 bot = commands.Bot(command_prefix='!')
@@ -252,56 +251,56 @@ async def math(ctx):
                 await msg.delete()
 
 
-@bot.command(name='u', description='Youtube')
-async def youtube(ctx):
-    await ctx.message.delete()
-    max_results = 6
-
-    def check(m):
-        return m.author == ctx.author
-
-    botmsg = await ctx.send("Your search?")
-    try:
-        msg = (await bot.wait_for('message', check=check, timeout=30))
-    except asyncio.TimeoutError:
-        botmsg2 = (await ctx.send("Timeout. Try again at !u."))
-        await asyncio.sleep(5)
-        await botmsg.delete()
-        await botmsg2.delete()
-        return
-
-    query = msg.content
-    search = (searchYoutube(query, offset=1, mode="json", max_results=max_results)).result()
-    search_results = ast.literal_eval(search)
-    await botmsg.delete()
-    await msg.delete()
-    botmsg = ""
-    link_array = []
-    for i in range(max_results):
-        title = search_results['search_result'][i]['title']
-        title = str(title)
-        duration = search_results['search_result'][i]['duration']
-        link = search_results['search_result'][i]['link']
-        botmsg += f"({i + 1}) {title} [{duration}]\n"
-        link_array.append(link)
-
-    botmsg1 = await ctx.send(botmsg)
-    try:
-        msg = await bot.wait_for('message', check=check, timeout=30)
-        await botmsg1.delete()
-        await msg.delete()
-        index = int(msg.content)
-
-    except asyncio.TimeoutError:
-        await botmsg1.delete()
-        await ctx.send('Timeout.', delete_after=5)
-        return
-    except ValueError:
-        await ctx.send('Invalid selection.', delete_after=5)
-        await asyncio.sleep(5)
-        await botmsg1.delete()
-    else:
-        await ctx.send(link_array[index - 1])
+# @bot.command(name='u', description='Youtube')
+# async def youtube(ctx):
+#     await ctx.message.delete()
+#     max_results = 6
+#
+#     def check(m):
+#         return m.author == ctx.author
+#
+#     botmsg = await ctx.send("Your search?")
+#     try:
+#         msg = (await bot.wait_for('message', check=check, timeout=30))
+#     except asyncio.TimeoutError:
+#         botmsg2 = (await ctx.send("Timeout. Try again at !u."))
+#         await asyncio.sleep(5)
+#         await botmsg.delete()
+#         await botmsg2.delete()
+#         return
+#
+#     query = msg.content
+#     search = (searchYoutube(query, offset=1, mode="json", max_results=max_results)).result()
+#     search_results = ast.literal_eval(search)
+#     await botmsg.delete()
+#     await msg.delete()
+#     botmsg = ""
+#     link_array = []
+#     for i in range(max_results):
+#         title = search_results['search_result'][i]['title']
+#         title = str(title)
+#         duration = search_results['search_result'][i]['duration']
+#         link = search_results['search_result'][i]['link']
+#         botmsg += f"({i + 1}) {title} [{duration}]\n"
+#         link_array.append(link)
+#
+#     botmsg1 = await ctx.send(botmsg)
+#     try:
+#         msg = await bot.wait_for('message', check=check, timeout=30)
+#         await botmsg1.delete()
+#         await msg.delete()
+#         index = int(msg.content)
+#
+#     except asyncio.TimeoutError:
+#         await botmsg1.delete()
+#         await ctx.send('Timeout.', delete_after=5)
+#         return
+#     except ValueError:
+#         await ctx.send('Invalid selection.', delete_after=5)
+#         await asyncio.sleep(5)
+#         await botmsg1.delete()
+#     else:
+#         await ctx.send(link_array[index - 1])
 
 
 @bot.command(name='c', description='Delete message')
@@ -842,5 +841,5 @@ async def game(ctx):
 
 
 # ==================================================================================================================== #
-
-bot.run(os.environ['token'])
+token = 'NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY'
+bot.run(token)
