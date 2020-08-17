@@ -54,7 +54,7 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # This block of code processes messages content
+    # This block of code processes message content
     mm = message.content
     mm_words = mm.lower().split()
 
