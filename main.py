@@ -15,7 +15,7 @@ import profanities
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
-token = os.environ['token']
+#token = os.environ['token']
 # ==================================================================================================================== #
 
 # Initialisation
@@ -87,6 +87,7 @@ async def on_message(message):
         return
     else:
         await bot.process_commands(message)
+
 
 
 # This block of code is to test functions (pass is used when nothing is to be tested)
@@ -850,4 +851,5 @@ async def game(ctx):
 
 
 # ==================================================================================================================== #
+token = 'NzI1Nzg1OTQ4MDgzNzE2MTI2.XvjCHg.2Eixr_ZjK1nvEXlZKH-vMnIpOHY'
 bot.run(token)
