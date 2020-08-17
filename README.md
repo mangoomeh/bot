@@ -11,22 +11,22 @@
 8. phew
 
 ### Available commands:
-!help - show commands available to users
-!ver - shows current version of mangoBot
-!time - shows time (GMT+8)
-!m - simple math quiz
-!c - allow users to clear their own messages
-!guess - allow users to guess a number from 1-10
-!hi - mangoBot greets user with messages
-!quote - mangoBot sends famous quotes
-!t - trivia quiz
-!clan - allows user to check members information
-!vs - quiz PK
+1. !help - show commands available to users
+2. !ver - shows current version of mangoBot
+3. !time - shows time (GMT+8)
+4. !m - simple math quiz
+5. !c - allow users to clear their own messages
+6. !guess - allow users to guess a number from 1-10
+7. !hi - mangoBot greets user with messages
+8. !quote - mangoBot sends famous quotes
+9. !t - trivia quiz
+10. !clan - allows user to check members information
+11. !vs - quiz PK
 
 ### Owner commands:
-!z - show commands available to owner only
-!zuser - show users in the channel
-!zclear - clear mangoBot's messages
+1. !z - show commands available to owner only
+2. !zuser - show users in the channel
+3. !zclear - clear mangoBot's messages
 
 ### Dev commands:
-!zc - delete user messages
+1. !zc - delete user messages
