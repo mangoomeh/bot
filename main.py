@@ -12,7 +12,6 @@ import logging
 
 # Local Packages
 import profanities
-import textfaces
 import quotes
 import quiz
 import greetings
@@ -23,11 +22,12 @@ vname = "mangoBot v4.0"
 token = os.environ['token']
 # ==================================================================================================================== #
 
-# Initialisation
 # Description for commands only usable by me
 me = "Only usable by mangoomeh"
+
 # Command prefix
 bot = commands.Bot(command_prefix='!')
+
 # Remove default help command in order to customise it
 bot.remove_command('help')
 
