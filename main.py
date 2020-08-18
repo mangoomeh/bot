@@ -31,9 +31,11 @@ bot = commands.Bot(command_prefix='!')
 # Remove default help command in order to customise it
 bot.remove_command('help')
 
+
 # Function that checks if the message is sent by me
 def owner(m):
     return m.author.id == 311159834823360512
+
 
 # Function that checks if the message is sent by any of the developers
 def dev(m):
@@ -42,10 +44,12 @@ def dev(m):
     c = 372024452042457108
     return m.author.id == a or m.author.id == b or m.author.id == c
 
+
 # Bot event that shows that the bot has connected
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+
 
 # Bot event that processes messages sent in the channel
 @bot.event
@@ -100,6 +104,7 @@ async def on_message(message):
 async def test(ctx):
     pass
 
+
 # This is the command that shows all commands only usable by me (only usable by me)
 @bot.command(name="z", description=me)
 @commands.check(owner)
@@ -113,6 +118,7 @@ async def z(ctx):
             helptext += "!{0:7} | {1}\n".format(str(command), str(command.description))
     helptext += "```"
     await ctx.send(helptext, delete_after=3)
+
 
 # This is the command to list all users in the channel (only usable by me)
 @bot.command(name='zuser', description=me)
@@ -128,6 +134,7 @@ async def getuser(ctx):
         botmsg += c
     await ctx.send(botmsg, delete_after=15)
 
+
 # This is the command to clear mangoBot messages (only usable by me)
 @bot.command(name='zclear', description=me)
 @commands.check(owner)
@@ -138,10 +145,11 @@ async def mangoclear(ctx, a: int):
     deleted = 0
     async for x in messages:
         if deleted >= limit:
-            break
             await ctx.send(f"{deleted} message(s) deleted.")
+            break
         await x.delete()
         deleted += 1
+
 
 # This is the message clearing command available to developers only
 @bot.command(name='zc', description="developers only")
@@ -149,6 +157,7 @@ async def mangoclear(ctx, a: int):
 async def overclear(ctx):
     def check(m):
         return m.author == ctx.author
+
     await ctx.message.delete()
 
     # Ask for whose messages to delete
@@ -179,6 +188,7 @@ async def overclear(ctx):
             break
         await x.delete()
         deleted += 1
+
 
 @bot.command(name="help", description="Shows this message")
 async def h(ctx):
@@ -211,6 +221,7 @@ async def time(ctx):
 async def math(ctx):
     await ctx.message.delete()
     await ctx.send("While in a question, type 'exit' to stop the quiz.", delete_after=5)
+
     def check(m):
         return m.author == ctx.message.author
 
@@ -303,8 +314,10 @@ async def math(ctx):
 @bot.command(name='c', description='Delete message')
 async def clear(ctx, *args):
     await ctx.message.delete()
+
     def check(m):
         return m.author == ctx.author
+
     messages = ctx.channel.history().filter(lambda m: check(m))
     deleted = 0
 
@@ -369,8 +382,10 @@ async def clear(ctx, *args):
 @bot.command(name='guess', description='Fun feature')
 async def guess(ctx):
     await ctx.message.delete()
+
     def check(m):
         return m.author == ctx.author
+
     while True:
         botmsg1 = await ctx.send('Guess a number from 1-10: ')
         number = random.randint(1, 10)
@@ -407,16 +422,19 @@ async def greet(ctx):
     await ctx.message.delete()
     await ctx.send(greetings.greet(ctx.author.mention), delete_after=5)
 
+
 @bot.command(name='quote', description='Famous Quotes')
 async def quote(ctx):
     await ctx.message.delete()
     response = random.choice(quotes.quotes)
     await ctx.send(f"{ctx.author.mention} \n{response}")
 
+
 # QUIZ
 @bot.command(name='t', description='Trivia Quiz')
 async def quiz(ctx):
     await ctx.message.delete()
+
     def check(m):
         return m.author == ctx.author
 
@@ -433,7 +451,8 @@ async def quiz(ctx):
         try:
             msg = (await bot.wait_for('message', check=check, timeout=15.0))
         except asyncio.TimeoutError:
-            botmsg2 = await ctx.send(ctx.author.mention + "\n" + "Time is up. The correct answer is: {0}".format(answer))
+            botmsg2 = await ctx.send(
+                ctx.author.mention + "\n" + "Time is up. The correct answer is: {0}".format(answer))
             await asyncio.sleep(5)
             await botmsg1.delete()
             await botmsg2.delete()
@@ -455,11 +474,13 @@ async def quiz(ctx):
             await botmsg2.delete()
             await msg.delete()
 
+
 # CLAN INFO
 @bot.command(name='clan', description='Member Info.')
 async def data(ctx):
     await ctx.message.delete()
     mention = str(ctx.author.mention)
+
     def check(m):
         return m.author == ctx.author
 
@@ -475,8 +496,8 @@ async def data(ctx):
     endpoint2 = "/clans/%23L2208GR9/currentwar"
     request1 = requests.get(base_url + endpoint1, headers={"Authorization": "Bearer %s" % key})
     request2 = requests.get(base_url + endpoint2, headers={"Authorization": "Bearer %s" % key})
-    data1 = request1.json() # members info
-    data2 = request2.json() # war info
+    data1 = request1.json()  # members info
+    data2 = request2.json()  # war info
 
     bm1 = await ctx.send(f"{mention} What info are you looking for? (war/member)")
     m1 = await bot.wait_for('message', check=check)
@@ -486,7 +507,7 @@ async def data(ctx):
         m2 = await bot.wait_for('message', check=check)
         for item in data1['items']:
             if item['name'] == m2.content:
-                response = f"{mention} \nName: {item['name']} \nRank: {item['role']}\nTrophies: {item['trophies']} \nArena: {item['arena']['name']} \nDonations: {item['donations']}"
+                response = f"{mention}\nName:{item['name']}\nRank:{item['role']}\nTrophies:{item['trophies']}\nArena:{item['arena']['name']}\nDonations:{item['donations']} "
                 await ctx.send(response, delete_after=10)
                 await bm1.delete()
                 await m1.delete()
@@ -524,7 +545,7 @@ async def data(ctx):
                 await bm2.delete()
                 await m2.delete()
                 return
-        botmsg3 = await ctx.send(f"{mention} Player info not found.")
+        await ctx.send(f"{mention} Player info not found.")
         await bm1.delete()
         await m1.delete()
         await bm2.delete()
