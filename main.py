@@ -654,6 +654,7 @@ async def game(ctx):
         try:
             e = await bot.wait_for('message', check=check, timeout=15)
             await bm1.delete()
+            await e.delete()
             playerList.append(Player(0, e.content, e.author))
             i += 1
         except asyncio.TimeoutError:
