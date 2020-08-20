@@ -20,6 +20,7 @@ logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s
 
 vname = "mangoBot v4.0"
 token = os.environ['token']
+clashToken = os.environ['clashToken']
 # ==================================================================================================================== #
 
 # Description for commands only usable by me
@@ -485,12 +486,7 @@ async def data(ctx):
         return m.author == ctx.author
 
     # Retrieve information about clan from Clash Royale API
-    key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9" \
-          ".eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6Ijc2YWYzMGJmLWFjYzgtNGE0Ny1" \
-          "hZmU2LWIwZjE0NzY2ZWNlYyIsImlhdCI6MTU5MjMxMzY0OSwic3ViIjoiZGV2ZWxvcGVyL2JjNzVkYTRmLTEyMGItOWU3Ny0" \
-          "xMTA0LWM0YmQxMDllMDc5OCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZ" \
-          "lciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMjguMTI4LjEyOC4xMjgiXSwidHlwZSI6ImNsaWVudCJ9XX0" \
-          ".czFtTMv7pqaziRUiivFYyXdvwAvPQNpI7w9tNvrExj0cvzYFl20GHtdLL3LiVKM-ZUFs1wTXeSqfjXgygssT2g"
+    key = clashToken
     base_url = "https://proxy.royaleapi.dev/v1"
     endpoint1 = "/clans/%23L2208GR9/members"
     endpoint2 = "/clans/%23L2208GR9/currentwar"
