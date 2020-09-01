@@ -19,7 +19,7 @@ import greetings
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
-token = os.environ['token']
+discordToken = os.environ['token']
 clashToken = os.environ['clashToken']
 # ==================================================================================================================== #
 
@@ -489,7 +489,7 @@ async def data(ctx):
     key = clashToken
     base_url = "https://proxy.royaleapi.dev/v1"
     endpoint1 = "/clans/%23L2208GR9/members"
-    endpoint2 = "/clans/%23L2208GR9/currentwar"
+    endpoint2 = "/clans/%23L2208GR9/currentriverrace"
     request1 = requests.get(base_url + endpoint1, headers={"Authorization": "Bearer %s" % key})
     request2 = requests.get(base_url + endpoint2, headers={"Authorization": "Bearer %s" % key})
     data1 = request1.json()  # members info
@@ -518,22 +518,15 @@ async def data(ctx):
         return
 
     elif m1.content.lower() == "war":
-        if data2['state'] == "notInWar":
-            await ctx.send(f"{mention} We are currently not in war.", delete_after=10)
-            await bm1.delete()
-            await m1.delete()
-            return
-
         bm2 = await ctx.send(" Name of player?")
         m2 = await bot.wait_for('message', check=check)
-        for item in data2['participants']:
+        for item in data2['clan']['participants']:
             if item['name'] == m2.content:
-                response = "{5} Name:{0} \nCollection Day: {1}/3 \nBattles Played: {2}/{3} \nWins: {4}/{2} \n".format(
+                response = "{4} \nName:{0} \nTag: {1} \nFame: {2}\nRepair points: {3}\n".format(
                     item['name'],
-                    item['collectionDayBattlesPlayed'],
-                    item["battlesPlayed"],
-                    item['numberOfBattles'],
-                    item['wins'],
+                    item['tag'],
+                    item['fame'],
+                    item['repairPoints'],
                     mention)
                 await ctx.send(response, delete_after=10)
                 await bm1.delete()
@@ -759,4 +752,4 @@ async def game(ctx):
 
 
 # ==================================================================================================================== #
-bot.run(token)
+bot.run(discordToken)
