@@ -16,6 +16,11 @@ import quotes
 import quiz
 import greetings
 
+triviaQuizQ = quiz.trivia_quiz_set
+triviaQuizA = quiz.trivia_answers
+managementQuizQ = quiz.management_quiz_set
+managementQuizA = quiz.management_answers
+
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 vname = "mangoBot v4.0"
@@ -441,8 +446,8 @@ async def quiz(ctx):
 
     while True:
         # Generate questions
-        questions = quiz.trivia_quiz_set
-        answers = quiz.trivia_answers
+        questions = triviaQuizQ
+        answers = triviaQuizA
         index = random.randint(0, len(questions) - 1)
         question = questions[index]
         answer = answers[index]
@@ -660,11 +665,11 @@ async def game(ctx):
 
     # Get quiz questions set based on type of quiz
     if gameType == 'trivia':
-        questions = quiz.trivia_quiz_set
-        answers = quiz.trivia_answers
+        questions = triviaQuizQ
+        answers = triviaQuizA
     elif gameType == 'management':
-        questions = quiz.management_quiz_set
-        answers = quiz.management_answers
+        questions = managementQuizQ
+        answers = managementQuizA
 
     # Loop for number of rounds of game
     for x in range(games):
