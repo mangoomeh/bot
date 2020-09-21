@@ -23,7 +23,7 @@ managementQuizA = quiz.management_answers
 
 logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-vname = "mangoBot v4.0"
+vname = "mangoBot (17/9/2020)"
 discordToken = os.environ['token']
 clashToken = os.environ['clashToken']
 # ==================================================================================================================== #
