@@ -11,7 +11,7 @@ import ast
 import logging
 
 # Local Packages
-from mypackages import *
+from mypackages import greetings, quiz, quotes, textfaces
 
 triviaQuizQ = quiz.trivia_quiz_set
 triviaQuizA = quiz.trivia_answers
