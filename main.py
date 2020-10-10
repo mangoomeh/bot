@@ -11,10 +11,7 @@ import ast
 import logging
 
 # Local Packages
-import profanities
-import quotes
-import quiz
-import greetings
+from mypackages import *
 
 triviaQuizQ = quiz.trivia_quiz_set
 triviaQuizA = quiz.trivia_answers
