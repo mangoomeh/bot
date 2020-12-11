@@ -1,4 +1,6 @@
 # botv2.py
+
+# python packages
 import random
 import os
 import discord
@@ -23,17 +25,19 @@ logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s
 vname = "mangoBot (17/9/2020)"
 discordToken = os.environ['token']
 clashToken = os.environ['clashToken']
+
 # ==================================================================================================================== #
 
 # Description for commands only usable by me
 me = "Only usable by mangoomeh"
 
 # Command prefix
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Remove default help command in order to customise it
 bot.remove_command('help')
-
 
 # Function that checks if the message is sent by me
 def owner(m):
