@@ -290,14 +290,14 @@ async def youtube(ctx):
 
     query = msg.content
     key = 'AIzaSyDs7_DbMn20Btvx74M7U1grsA3uTht3IoE'
-    with build('youtube', 'v3', developerKey=key) as service:
-        req = service.search().list(
-                part='snippet',
-                q=query,
-                maxResults=6,
-                type='video'
-            )
-        res = req.execute()
+    service = build('youtube', 'v3', developerKey=key)
+    req = service.search().list(
+            part='snippet',
+            q=query,
+            maxResults=6,
+            type='video'
+        )
+    res = req.execute()
     res_formatted = []
     for i in res['items']:
         res_formatted.append([i['snippet']['title'], 'https://youtube.com/watch?v='+ i['id']['videoId']])
