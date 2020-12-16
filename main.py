@@ -26,6 +26,7 @@ logging.basicConfig(format='%(asctime)s : %(name)s - %(levelname)s - %(message)s
 vname = "mangoBot (17/9/2020)"
 discordToken = os.environ['token']
 clashToken = os.environ['clashToken']
+youtubeToken = os.environ['youtubeToken']
 
 # ==================================================================================================================== #
 
@@ -289,7 +290,7 @@ async def youtube(ctx):
         return
 
     query = msg.content
-    key = 'AIzaSyDs7_DbMn20Btvx74M7U1grsA3uTht3IoE'
+    key = youtubeToken
     service = build('youtube', 'v3', developerKey=key)
     req = service.search().list(
             part='snippet',
